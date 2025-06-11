@@ -1,121 +1,105 @@
 
-
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import HomeIcon from '@mui/icons-material/Home';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import FoodBankIcon from '@mui/icons-material/FoodBank';
-import Tooltip from '@mui/material/Tooltip';
-import PersonIcon from '@mui/icons-material/Person';
-
-
-export default function BasicMenu() {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-
-    const divStyle = {
-        margin: 'auto',
-
-    };
-
-    return (
-        <div>
-            <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'></link>
+import { IconHome } from '@tabler/icons-react';
+import { IconList } from '@tabler/icons-react';
+import { IconSalad } from '@tabler/icons-react';
+import {
+  Box,
+  Burger,
+  Button,
+  Center,
+  Divider,
+  Drawer,
+  Group,
+  ScrollArea,
+  Text,
+  useMantineTheme,
+  Image
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { MantineLogo } from '@mantinex/mantine-logo';
+import classes from './ui/DoubleHeader.module.css';
+import React from 'react';
+import { Stack } from '@mantine/core';
+import { NavLink } from "react-router-dom";
 
 
-            <Box sx={{ display: 'flex', alignItems: 'center', /*backgroundColor: '#f5f5f5'*/  height: '60', px: '2' /*, textAlign: 'center', justifyContent: 'center' */ }}>
-                <Box sx={{ paddingLeft: '1rem' }}>
-                    <Typography variant='h5' component='h5' color='primary' sx={{ fontFamily: 'Montserrat' }}>SMUEats</Typography>
-                </Box>
-                <div style={divStyle}>
-                    <Tooltip title = 'Home' placement = 'top-start'>
-                        <Button
-                            onClick={handleClick}
-                            sx={{
-                                fontFamily: `Montserrat`,
-                                color: '#0066CC',
-                                fontSize: '16px',
-                                textTransform: 'None',
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                Home &nbsp; <HomeIcon color='primary' />
-                            </Box>
-                        </Button>
-                    </Tooltip>
 
+export function HeaderMegaMenu() {
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
+  const theme = useMantineTheme();
 
-                    <Tooltip title = 'Orders' placement = 'top-start'>
-                            <Button
-                        onClick={handleClick}
-                        sx={{
-                            fontFamily: `Montserrat`,
-                            color: '#0066CC',
-                            fontSize: '16px',
-                            textTransform: 'None',
-                            fontWeight: 'bold'
-                        }}
-                    >
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            Orders &nbsp; <FormatListBulletedIcon color='primary' />
-                        </Box>
+  return (
+    <Box pb={30} style={{width:'100%'}}>
+      <header className={classes.header}>
+        <Group justify="space-between" h="100%">
+          <MantineLogo size={30} /> 
+            <Center>
+              <Group h="100%" gap={0} visibleFrom="cus" className='alignGroup'>
+            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
+              <NavLink to="/" style={{textDecoration: 'none'}}>
+                <Text c='#505050' fw={500} >Home</Text>
+              </NavLink>
 
-                    </Button>
+            </Button>
 
-                    </Tooltip>
-                    
+            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
+              <Text c='#505050' fw={500}>Orders</Text>
+            </Button>
+            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
+              <Text c='#505050' fw={500}>Food</Text>
+            </Button>
+          </Group>
+            </Center>
+          
 
-                    <Tooltip placement = 'top-start' title = 'Food'>
-                        <Button
-                        onClick={handleClick}
-                        sx={{
-                            fontFamily: `Montserrat`,
-                            color: '#0066CC',
-                            fontSize: '16px',
-                            textTransform: 'None',
-                            fontWeight: 'bold'
-                        }}
-                    >
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            Food &nbsp; <FoodBankIcon color='primary' />
-                        </Box>
-                    </Button>
-                    </Tooltip>
-                    
-                </div>
-                <Tooltip title = 'Profile' placement = 'top-start'>
-                    <Button
-                    onClick={handleClick}
-                    sx={{
-                        fontFamily: `Montserrat`,
-                        color: '#0066CC',
-                        fontSize: '16px',
-                        textTransform: 'None',
-                        fontWeight: 'bold',
-                        paddingRight: '1rem'
-                    }}
-                >
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            Profile &nbsp; <PersonIcon color='primary' />
-                        </Box>
-                </Button>
-                </Tooltip>
-                
-                <Box />
+          <Group visibleFrom="cus">
+            <NavLink to='/login'>
+              <Button color='green'>Log in</Button>
+            </NavLink>
+            <NavLink to ='/signup'>
+              <Button color='green'>Sign up</Button>
+            </NavLink>
+            
+          </Group>
 
-            </Box>
-        </div>
-    );
+          <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="cus" />
+        </Group>
+      </header>
+
+      <Drawer
+        opened={drawerOpened}
+        onClose={closeDrawer}
+        size="100%"
+        padding="md"
+        title="SMUEats"
+        hiddenFrom="cus"
+        zIndex={1000000}
+      >
+        <ScrollArea h="calc(100vh - 80px" mx="-md">
+          <Divider my="sm" />
+
+          <a href="#" className={classes.link}>
+            Home &nbsp; <IconHome stroke={2} />
+          </a>
+
+          <a href="#" className={classes.link}>
+            Orders &nbsp; <IconList stroke={2} />
+          </a>
+          <a href="#" className={classes.link}>
+            Food &nbsp; <IconSalad stroke={2} />
+          </a>
+
+          <Divider my="sm" />
+          <Box>
+            <Stack style={{ alignItems: 'center' }}>
+              <Button w="70%" color='green'>Log in</Button>
+              <Button w="70%" color='green'>Sign up</Button>
+            </Stack>
+          </Box>
+        </ScrollArea>
+      </Drawer>
+    </Box>
+  );
 }
+

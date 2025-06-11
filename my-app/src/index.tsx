@@ -1,18 +1,61 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App.tsx';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration.ts';
-import reportWebVitals from './reportWebVitals.ts';
+import App from './App';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import reportWebVitals from './reportWebVitals';
+import '@mantine/core/styles.css';
+import { createTheme, MantineProvider } from '@mantine/core';
+import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Homepage from './Homepage';
+import Store from './Store';
+import Login from './Login';
+import Signup from './Signup';
 
+
+//since this is your app's starting point, you will be able to use the variables here for the whole application.
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Homepage/>
+  },
+  {
+    path: "/store/:id",
+    element: <Store/>
+  },
+  {
+    path: "/login",
+    element: <Login/>
+  },
+  {
+    path: "/signup/",
+    element: <Signup/>
+  }
+
+])
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-root.render(
-  <React.StrictMode>
 
-      <App />
-  </React.StrictMode>
+const theme = createTheme({
+  breakpoints: {
+    cus: "787px",
+    xs: '30em',
+    custom: '37.5em',
+    sm: '48em',
+    md: '64em',
+    lg: '74em',
+    xl: '90em',
+  },
+});
+root.render(
+  <MantineProvider theme={theme}>
+    <React.StrictMode>
+      
+        <RouterProvider router={router}></RouterProvider>
+    </React.StrictMode>
+  </MantineProvider>
+
 );
 
 // If you want your app to work offline and load faster, you can change
