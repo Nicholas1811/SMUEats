@@ -1,13 +1,15 @@
 import React from 'react';
 import styles from './Homepage.module.css';
-import { HeaderMegaMenu } from './components/navbar';
+import { HeaderMegaMenu } from '../components/navbar';
 import { motion } from "motion/react";
 import { useState } from "react";
 import { Card, Flex, Image, Group, Text, Badge, Space, stylesToString, Container, Stack, Popover, HoverCard } from '@mantine/core';
 import { Button } from '@mantine/core';
 import { Grid, Box } from '@mantine/core';
-import { useStore } from './backend/restaurants';
+import { useStore } from '../backend/restaurants';
 import { Link } from 'react-router-dom';
+import { useLogin } from '../backend/auth/authcheck';
+import { FooterSimple } from '../components/footer';
 
 
 function randomPicker() {
@@ -22,13 +24,15 @@ function randomPicker() {
 }
 
 function Homepage() {
+  const {session,loading} = useLogin();
   const stores = useStore();
-  let randomImage = randomPicker();
   const [showSecond, setShowSecond] = useState(false);
+  let randomImage = randomPicker();
+  
   return (
     <div className={styles.App}>
       <title>Home</title>
-      <HeaderMegaMenu></HeaderMegaMenu>
+      <HeaderMegaMenu/>
       <div className={styles.holder}>
         {/* critical issue here. parent must prevent from overflowing. the previous value was size = 1300*/}
         <Container
@@ -122,12 +126,22 @@ function Homepage() {
 
 
                       </Stack>
-                        
-                      <Link to={{pathname:  `/store/${store.storeName}` }} state= {{name}}  style={{textDecoration:'None'}}>
+                      {session!= null && (
+                        <Link to={{pathname: `/store/${name}` }} style={{textDecoration:'None'}}>
                         <Button variant = 'gradient' gradient={{from: '#AACF9F', to: '#5E8A61', deg:80}} fullWidth mt="md" radius="md">
-                        Order Now
+                          Order now
                       </Button>
                       </Link>
+                      )}
+
+                      {session== null && (
+                        <Link to={{pathname: "/" }} style={{textDecoration:'None'}}>
+                        <Button variant = 'gradient' gradient={{from: '#AACF9F', to: '#5E8A61', deg:80}} fullWidth mt="md" radius="md">
+                          Sign up to order!
+                      </Button>
+                      </Link>
+                      )}
+                      
                       
                     </Card>
 
@@ -144,7 +158,7 @@ function Homepage() {
       </div>
 
 
-
+      <FooterSimple/>
     </div>
 
 

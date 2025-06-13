@@ -7,8 +7,7 @@ export function useStore() {
     const { data, error } = await supabaseClient.from('stores').select("*");
     if (data) {
       setStore(data)
-    } else {
-    }
+    } 
   }
   useEffect(() => {
     getStores()

@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import '@mantine/core/styles.css';
 import { createTheme, MantineProvider } from '@mantine/core';
 import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Homepage from './Homepage';
-import Store from './Store';
-import Login from './Login';
-import Signup from './Signup';
+import Homepage from './frontend/Homepage';
+import Store from './frontend/Store';
+import Login from './frontend/Login';
+import Signup from './frontend/Signup';
+import Profile from './frontend/Profile';
 
 
 //since this is your app's starting point, you will be able to use the variables here for the whole application.
@@ -30,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/signup/",
     element: <Signup/>
+  },
+  {
+    path: '/profile',
+    element: <Profile/>
   }
 
 ])
@@ -51,8 +55,8 @@ const theme = createTheme({
 root.render(
   <MantineProvider theme={theme}>
     <React.StrictMode>
-      
-        <RouterProvider router={router}></RouterProvider>
+        <RouterProvider router={router}>
+        </RouterProvider>
     </React.StrictMode>
   </MantineProvider>
 
