@@ -11,6 +11,7 @@ import Store from './frontend/Store';
 import Login from './frontend/Login';
 import Signup from './frontend/Signup';
 import Profile from './frontend/Profile';
+import { Provider } from 'react-redux'
 
 
 //since this is your app's starting point, you will be able to use the variables here for the whole application.
@@ -56,6 +57,7 @@ root.render(
   <MantineProvider theme={theme}>
     <React.StrictMode>
         <RouterProvider router={router}>
+          <Provider store = {store}></Provider>
         </RouterProvider>
     </React.StrictMode>
   </MantineProvider>

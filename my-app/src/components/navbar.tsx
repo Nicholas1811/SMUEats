@@ -1,7 +1,4 @@
 
-import { IconHome } from '@tabler/icons-react';
-import { IconList } from '@tabler/icons-react';
-import { IconSalad } from '@tabler/icons-react';
 import {
   Box,
   Burger,
@@ -12,8 +9,6 @@ import {
   Group,
   ScrollArea,
   Text,
-  useMantineTheme,
-  Image
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { MantineLogo } from '@mantinex/mantine-logo';
@@ -22,41 +17,85 @@ import React from 'react';
 import { Stack } from '@mantine/core';
 import { NavLink } from "react-router-dom";
 import { useLogin } from '../backend/auth/authcheck';
-import { Outlet } from "react-router-dom";
+import { useUserTable } from '../backend/auth/authcheck';
 
 
 function ProfileCheck() {
   const { session, loading } = useLogin();
+  let id = "null"
+  if (session) {
+    id = session.user.id
+  }
+  const currentData = useUserTable(id)
 
   if (loading) {
     return null;
   }
-  if (session) {
+  let uname = "";
+  if (session && currentData) {
+    uname = currentData.username
     return (
-      <NavLink to='/profile'>
-        <Button color='green' radius="md">Profile</Button>
-      </NavLink>
+      <Group visibleFrom="cus">
+        <NavLink to='/profile'>
+          <Button color='green' radius="md">{uname}'s Profile</Button>
+        </NavLink>
+      </Group>
+
     );
   }
+  return(
+          <Group visibleFrom="cus">
+        <NavLink to='/login'>
+          <Button color='green' radius="md" variant='gradient' gradient={{from: '#11998e', to: '#38ef7d', deg:135}}>Login</Button>
+        </NavLink>
 
+        <NavLink to='/signup'>
+          <Button color='green' radius="md" variant='gradient' gradient={{from: '#11998e', to: '#38ef7d', deg:135}}>Sign up</Button>
+        </NavLink>
+      </Group>
+  )
+}
+function PCheck() {
+  const { session, loading } = useLogin();
+  let id = "null"
+  if (session) {
+    id = session.user.id
+  }
+  const currentData = useUserTable(id)
+
+  if (loading) {
+    return null;
+  }
+  let uname = "";
+
+  if (session && currentData) {
+    uname = currentData.username
+    return (
+      <Stack style={{ alignItems: 'center' }}>
+        <NavLink to='/profile'>
+          <Button color='green' radius="md">{uname}'s Profile</Button>
+        </NavLink>
+      </Stack>
+
+    );
+  }
   return (
-    <Group visibleFrom="cus">
+    <Stack style={{ alignItems: 'center' }}>
       <NavLink to='/login'>
-        <Button color='green' radius="md">Log in</Button>
+        <Button color='green' w={350}>Log in</Button>
       </NavLink>
       <NavLink to='/signup'>
-        <Button color='green' radius="md">Sign up</Button>
+        <Button color='green' w={350}>Sign up</Button>
       </NavLink>
-    </Group>
+    </Stack>
   );
 }
 
 
 export function HeaderMegaMenu() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-
   return (
-    <Box pb={30} style={{ width: '100%' }}>
+    <Box pb={0} style={{ width: '100%' }}>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <MantineLogo size={30} />
@@ -111,14 +150,9 @@ export function HeaderMegaMenu() {
 
           <Divider my="sm" />
           <Box>
-            <Stack style={{ alignItems: 'center' }}>
-              <NavLink to='/login'>
-                <Button color='green' w={350}>Log in</Button>
-              </NavLink>
-              <NavLink to='/signup'>
-                <Button color='green' w={350}>Sign up</Button>
-              </NavLink>
-            </Stack>
+
+            <PCheck />
+
           </Box>
         </ScrollArea>
       </Drawer>

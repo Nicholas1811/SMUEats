@@ -3,9 +3,9 @@ import styles from './Homepage.module.css';
 import { HeaderMegaMenu } from '../components/navbar';
 import { motion } from "motion/react";
 import { useState } from "react";
-import { Card, Flex, Image, Group, Text, Badge, Space, stylesToString, Container, Stack, Popover, HoverCard } from '@mantine/core';
+import { Card, Image, Group, Text, Badge, Space, Container, Stack } from '@mantine/core';
 import { Button } from '@mantine/core';
-import { Grid, Box } from '@mantine/core';
+import { Grid } from '@mantine/core';
 import { useStore } from '../backend/restaurants';
 import { Link } from 'react-router-dom';
 import { useLogin } from '../backend/auth/authcheck';
@@ -113,11 +113,12 @@ function Homepage() {
                       </Card.Section>
 
                       <Group justify="space-between" mt="md" mb="xs">
-                        <Text fw={700}>{store.storeName}</Text>
-                        <Badge color="blue">{store.school}</Badge>
+                        <Text fw={600} size="lg">{store.storeName}</Text>
+                        <Badge color="teal" variant="light">{store.school}</Badge>
                       </Group>
 
                       <Stack align='flex-start' gap={5}>
+                        <Text c='#505050' fw={500} size='sm' td="underline">Opening Hours</Text>
                         <Text c='#505050' fw={400} size='sm'>{store.openingHours} </Text>
                         {store.weekendOpening.length > 0 ?
                           <Text c='#505050' fw={400} size='sm'>{store.weekendOpening}</Text> :
@@ -127,8 +128,8 @@ function Homepage() {
 
                       </Stack>
                       {session!= null && (
-                        <Link to={{pathname: `/store/${name}` }} style={{textDecoration:'None'}}>
-                        <Button variant = 'gradient' gradient={{from: '#AACF9F', to: '#5E8A61', deg:80}} fullWidth mt="md" radius="md">
+                        <Link to={{pathname: `/store/${name}` }} state={store} style={{textDecoration:'None'}}>
+                        <Button variant = 'gradient' gradient= {{ from: '#a8e6a1', to: '#64d38c', deg: 135 }} fullWidth mt="md" radius="md">
                           Order now
                       </Button>
                       </Link>
@@ -136,7 +137,7 @@ function Homepage() {
 
                       {session== null && (
                         <Link to={{pathname: "/" }} style={{textDecoration:'None'}}>
-                        <Button variant = 'gradient' gradient={{from: '#AACF9F', to: '#5E8A61', deg:80}} fullWidth mt="md" radius="md">
+                        <Button variant = 'gradient' gradient= {{ from: '#a8e6a1', to: '#64d38c', deg: 135}} fullWidth mt="md" radius="md">
                           Sign up to order!
                       </Button>
                       </Link>

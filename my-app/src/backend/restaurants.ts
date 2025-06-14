@@ -16,3 +16,19 @@ export function useStore() {
   return stores;
 }
 
+export function useCurrentStore(name:any){
+  const [store, setCurrentStore] = useState([])
+  const getStore = async()=>{
+    const {data,error} = await supabaseClient.from('stores').select().eq('storeName', name).single();
+    if(data){
+      setCurrentStore(data)
+    }else{
+      setCurrentStore(error)
+    }
+  }
+  useEffect(()=>{
+    getStore()
+  },[name])
+  return store;
+}
+

@@ -32,6 +32,7 @@ function Login() {
             email: (value) => {
                 console.log(value)
                 if (!/^\S+@\S+$/.test(value)) {
+                    console.log(value)
                     return "Your email is invalid"
                 }
                 if (userError) {
