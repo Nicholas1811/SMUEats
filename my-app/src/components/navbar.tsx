@@ -68,7 +68,7 @@ function PCheck() {
   }
   let uname = "";
 
-  if (session && currentData) {
+  if (session && !loading) {
     uname = currentData.username
     return (
       <Stack style={{ alignItems: 'center' }}>
@@ -79,16 +79,21 @@ function PCheck() {
 
     );
   }
-  return (
+  else{
+    if(!session && !loading){
+        return (
     <Stack style={{ alignItems: 'center' }}>
       <NavLink to='/login'>
         <Button color='green' w={350}>Log in</Button>
       </NavLink>
+        <Button color='green' w={350}>Sign up</Button>ƒ
       <NavLink to='/signup'>
-        <Button color='green' w={350}>Sign up</Button>
       </NavLink>
     </Stack>
   );
+    }
+  }
+
 }
 
 

@@ -4,7 +4,7 @@ import { Image, Title, Container, Grid, Anchor, Breadcrumbs, Space, Badge, Text 
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { useCurrentStore } from "../backend/restaurants";
+import { useCurrentFood, useCurrentStore } from "../backend/restaurants";
 
 function sanitisePath(str: any) {
     let finString = "Home" + decodeURIComponent(str)
@@ -32,8 +32,9 @@ function Store() {
 
     const [hasOthers, setOthers] = useState(false);
     const currentStoreDet = useCurrentStore(id);
+    const storeID:number = currentStoreDet.id;
+    const stores = useCurrentFood(storeID);
     useEffect(() => {
-
         if (currentStoreDet.weekendOpening != "") {
             setOthers(true)
         }
@@ -41,7 +42,7 @@ function Store() {
             setOthers(false)
         }
     }, [])
-    console.log(hasOthers)
+    
     const items = finWordArr.map((item, index) => (
         <Anchor href={item.href} key={index}>
             {item.title}
@@ -57,7 +58,7 @@ function Store() {
                         <Space h="1em" />
                         <div style={{ display: "flex" }}>
                             <div>
-                                <Image src={currentStoreDet.image} w={200} h={200} radius={10}></Image>
+                                <Image src={currentStoreDet.image} w={300} h={200} radius={10}></Image>
                                 <Space h="2em"/>
                                 <Title style={{fontFamily:'system-ui', color: '#36454F'}}>Menu</Title>
                             </div>

@@ -57,7 +57,7 @@ root.render(
   <MantineProvider theme={theme}>
     <React.StrictMode>
         <RouterProvider router={router}>
-          <Provider store = {store}></Provider>
+          {/* <Provider store = {store}></Provider> */}
         </RouterProvider>
     </React.StrictMode>
   </MantineProvider>
