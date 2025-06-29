@@ -25,7 +25,7 @@ export function useCurrentStore(name:any){
     if(data){
       setCurrentStore(data)
     }else{
-      setCurrentStore(error)
+      setCurrentStore([error])
     }
   }
   
@@ -35,14 +35,16 @@ export function useCurrentStore(name:any){
   return store;
 }
 
-export function useCurrentFood(id: unknown){
+//use effect is important here because it looks for any changes re-rendering
+//getting always returns a ARRAY with data. use state data can get overwritten
+export function useCurrentFood(id: any){
   const [food, setcurrentfood] = useState([])
   const getFood = async() =>{
     const {data,error} = await supabaseClient.from('food').select().eq('storeID', id)
     if (data){
       setcurrentfood(data)
     }else{
-      setcurrentfood(error)
+      setcurrentfood([error])
     }
   }
   useEffect(()=>{
