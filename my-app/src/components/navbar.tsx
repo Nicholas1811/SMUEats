@@ -68,7 +68,7 @@ function PCheck() {
   }
   let uname = "";
 
-  if (session && !loading) {
+  if (session && !loading && currentData) {
     uname = currentData.username
     return (
       <Stack style={{ alignItems: 'center' }}>

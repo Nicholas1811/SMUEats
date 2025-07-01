@@ -8,7 +8,7 @@ export function useStore() {
     if (data) {
       setStore(data)
     }else{
-      setStore(error)
+      setStore([])
     } 
   }
   useEffect(() => {
@@ -25,7 +25,7 @@ export function useCurrentStore(name:any){
     if(data){
       setCurrentStore(data)
     }else{
-      setCurrentStore([error])
+      setCurrentStore([])
     }
   }
   
@@ -40,11 +40,11 @@ export function useCurrentStore(name:any){
 export function useCurrentFood(id: any){
   const [food, setcurrentfood] = useState([])
   const getFood = async() =>{
-    const {data,error} = await supabaseClient.from('food').select().eq('storeID', id)
+    const {data,error} = await supabaseClient.from('food').select().eq('storeID', id).order('image', {ascending: false})
     if (data){
       setcurrentfood(data)
     }else{
-      setcurrentfood([error])
+      setcurrentfood([])
     }
   }
   useEffect(()=>{

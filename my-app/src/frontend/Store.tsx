@@ -1,10 +1,12 @@
 import { FooterSimple } from "../components/footer";
 import { HeaderMegaMenu } from "../components/navbar";
-import { Image, Title, Container, Grid, Anchor, Breadcrumbs, Space, Badge, Text, Card, Group, Button, Input } from "@mantine/core";
+import { Image, Title, Container, Grid, Anchor, Breadcrumbs, Space, Badge, Text, Card, Group, Button, Input, Stack } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useCurrentFood, useCurrentStore } from "../backend/restaurants";
+import { useDisclosure } from '@mantine/hooks';
+import { Modal } from '@mantine/core';
 
 function sanitisePath(str: any) {
     let finString = "Home" + decodeURIComponent(str)
@@ -33,8 +35,11 @@ function Store() {
     const currentStoreDet = useCurrentStore(id);
     const storeID = currentStoreDet.id;
     const allFood = useCurrentFood(storeID);
-    const [query,setQuery] = useState("");
-
+    const [query, setQuery] = useState("");
+    const filteredFood = allFood.filter((item) =>
+        item.foodName.toLowerCase().includes(query.toLowerCase())
+    );
+    const [opened, { open, close }] = useDisclosure(false);
     useEffect(() => {
         if (currentStoreDet.weekendOpening != "") {
             setOthers(true)
@@ -54,6 +59,7 @@ function Store() {
 
     return (
         <div>
+
             <HeaderMegaMenu />
             <Container style={{ paddingTop: '1em' }}>
                 <Grid>
@@ -65,7 +71,7 @@ function Store() {
                                 <Space h="2em" />
                                 <Title style={{ fontFamily: 'system-ui', color: '#36454F' }}>Menu</Title>
                                 <Space h='1em' />
-                                <Input placeholder="Search" onChange={e=>setQuery(e.target.value)}></Input>
+                                <Input placeholder="Search" onChange={e => setQuery(e.target.value)} value={query}></Input>
                             </div>
                             <div style={{ paddingLeft: '1em' }}>
                                 <Breadcrumbs separator=">" separatorMargin="md" mt="xs">
@@ -92,32 +98,43 @@ function Store() {
             <Container>
                 <Grid>
                     {
-                        allFood.map((f) => {
+                        filteredFood.map((f) => {
+                            console.log(f)
                             return (
-                                <Grid.Col span={6}>
+
+                                <Grid.Col span={4}>
+
                                     <Card shadow="sm" padding="lg" radius="md" withBorder>
                                         <Card.Section>
-            
-                                            {f.image != null &&
-                                            <Image
-                                                src={f.image}
-                                                height={200}
-                                                alt="Norway"
-                                            />
+
+                                            {f.image != "" &&
+                                                <Image
+                                                    src={f.image}
+                                                    height={200}
+                                                    alt="Norway"
+                                                />
                                             }
+
+
+
                                         </Card.Section>
 
-                                        <Group justify="space-between" mt="md" mb="xs">
+                                        <Stack justify="space-between" mt="md" mb="xs">
                                             <Text fw={500}>{f.foodName}</Text>
-                                            <Badge color="pink">${f.price}</Badge>
-                                        </Group>
 
-                                        <Button color="blue" fullWidth mt="md" radius="md">
+                                            <Badge color="pink">${f.price}</Badge>
+                                        </Stack>
+
+                                        <Button color="blue" fullWidth mt="md" radius="md" onClick={open}>
                                             Add to Cart
                                         </Button>
                                     </Card>
-
+                                    <Modal opened={opened} onClose={close} title="Authentication">
+                                        {/* Modal content */}
+                                    </Modal>
                                 </Grid.Col>
+
+
                             )
                         })
                     }
