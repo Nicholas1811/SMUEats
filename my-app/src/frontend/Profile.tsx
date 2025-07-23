@@ -113,15 +113,12 @@ export default function Profile() {
                                             disabled
                                             description="You are unable to update your email"
                                         /> 
-                                        <Group align="center" w="100%" gap={0}>
+                                        <Group align="center" w="100%" gap={0} justify="center" style={{justifyContent: 'space-between'}}>
                                             <Button onClick={handleLogout}>Update Account</Button>
-                                            <Button onClick={handleLogout}>View my orders</Button>
+                                            <Button onClick={handleLogout}>Logout</Button>
                                         </Group>
 
-                                        <Group align="center">
-                                            <Button onClick={handleLogout}>Logout</Button>
-                                            <Button onClick={handleLogout}>Delete Account</Button>
-                                        </Group>
+                                        
                                         </>
                                         )
                                         

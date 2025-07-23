@@ -11,6 +11,7 @@ import Store from './frontend/Store';
 import Login from './frontend/Login';
 import Signup from './frontend/Signup';
 import Profile from './frontend/Profile';
+import  store  from './cart/store';
 import { Provider } from 'react-redux'
 
 

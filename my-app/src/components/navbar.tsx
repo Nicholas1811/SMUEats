@@ -18,6 +18,8 @@ import { Stack } from '@mantine/core';
 import { NavLink } from "react-router-dom";
 import { useLogin } from '../backend/auth/authcheck';
 import { useUserTable } from '../backend/auth/authcheck';
+import { useLocation } from 'react-router-dom';
+
 
 
 function ProfileCheck() {
@@ -37,22 +39,22 @@ function ProfileCheck() {
     return (
       <Group visibleFrom="cus">
         <NavLink to='/profile'>
-          <Button color='green' radius="md">{uname}'s Profile</Button>
+          <Button color='#00B14F' radius="md" size='s' style={{ fontFamily: 'Helvetica' }}>Profile</Button>
         </NavLink>
       </Group>
 
     );
   }
-  return(
-          <Group visibleFrom="cus">
-        <NavLink to='/login'>
-          <Button color='green' radius="md" variant='gradient' gradient={{from: '#11998e', to: '#38ef7d', deg:135}}>Login</Button>
-        </NavLink>
+  return (
+    <Group visibleFrom="cus">
+      <NavLink to='/login'>
+        <Button color='green' radius="md" variant='gradient' gradient={{ from: '#11998e', to: '#38ef7d', deg: 135 }}>Login</Button>
+      </NavLink>
 
-        <NavLink to='/signup'>
-          <Button color='green' radius="md" variant='gradient' gradient={{from: '#11998e', to: '#38ef7d', deg:135}}>Sign up</Button>
-        </NavLink>
-      </Group>
+      <NavLink to='/signup'>
+        <Button color='green' radius="md" variant='gradient' gradient={{ from: '#11998e', to: '#38ef7d', deg: 135 }}>Sign up</Button>
+      </NavLink>
+    </Group>
   )
 }
 function PCheck() {
@@ -73,24 +75,26 @@ function PCheck() {
     return (
       <Stack style={{ alignItems: 'center' }}>
         <NavLink to='/profile'>
-          <Button color='green' radius="md">{uname}'s Profile</Button>
+          <Button color='#00B14F' radius="md">
+            <Text fw={400} size='lg' >Profile</Text>
+          </Button>
         </NavLink>
       </Stack>
 
     );
   }
-  else{
-    if(!session && !loading){
-        return (
-    <Stack style={{ alignItems: 'center' }}>
-      <NavLink to='/login'>
-        <Button color='green' w={350}>Log in</Button>
-      </NavLink>
-        <Button color='green' w={350}>Sign up</Button>ƒ
-      <NavLink to='/signup'>
-      </NavLink>
-    </Stack>
-  );
+  else {
+    if (!session && !loading) {
+      return (
+        <Stack style={{ alignItems: 'center' }}>
+          <NavLink to='/login'>
+            <Button color='#00B14F' w={350}>Log in</Button>
+          </NavLink>
+          <Button color='#00B14F' w={350}>Sign up</Button>ƒ
+          <NavLink to='/signup'>
+          </NavLink>
+        </Stack>
+      );
     }
   }
 
@@ -99,28 +103,27 @@ function PCheck() {
 
 export function HeaderMegaMenu() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const location = useLocation();
   return (
-    <Box pb={0} style={{ width: '100%' }}>
-      <header className={classes.header}>
+    <Box pb={0} style={{ width: '100%' }} c='#00B14F'>
+      <header className={classes.header} color='#00B14F'>
         <Group justify="space-between" h="100%">
           <MantineLogo size={30} />
-          <Center>
-            <Group h="100%" gap={0} visibleFrom="cus" className='alignGroup'>
-              <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
-                <NavLink to="/" style={{ textDecoration: 'none' }}>
-                  <Text c='#505050' fw={500} >Home</Text>
-                </NavLink>
 
-              </Button>
+          <Group h="100%" gap={0} visibleFrom="cus" className='alignGroup' justify='flex-end' style={{ flexGrow: 1 }}>
+            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} component={NavLink} to='/'>
+                <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Home</Text>
+            </Button>
 
-              <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
-                <Text c='#505050' fw={500}>Orders</Text>
-              </Button>
-              <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
-                <Text c='#505050' fw={500}>Food</Text>
-              </Button>
-            </Group>
-          </Center>
+            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} component={NavLink} to='/'>
+              <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Orders</Text>
+              
+            </Button>
+            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} component={NavLink} to='/'>
+              <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Food</Text>
+              
+            </Button>
+          </Group>
 
           <ProfileCheck />
 

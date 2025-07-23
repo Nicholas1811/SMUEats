@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 
 function Login() {
+    const [userError, setUserError] = useState(false);
     const handleSubmit = async (values: { email: any; password: any; }) => {
         //e.preventDefault(); mantine auto calls
         const { data, error } = await signin(values.email, values.password)
@@ -21,7 +22,6 @@ function Login() {
             console.log("Welcome user", data)
         }
     }
-    const [userError, setUserError] = useState(false);
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {

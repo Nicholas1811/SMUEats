@@ -7,9 +7,9 @@ export function useStore() {
     const { data, error } = await supabaseClient.from('stores').select("*");
     if (data) {
       setStore(data)
-    }else{
+    } else {
       setStore([])
-    } 
+    }
   }
   useEffect(() => {
     getStores()
@@ -18,38 +18,56 @@ export function useStore() {
   return stores;
 }
 
-export function useCurrentStore(name:any){
+export function useCurrentStore(name: any) {
   const [store, setCurrentStore] = useState([])
-  const getStore = async()=>{
-    const {data,error} = await supabaseClient.from('stores').select().eq('storeName', name).single();
-    if(data){
+  const getStore = async () => {
+    const { data, error } = await supabaseClient.from('stores').select().eq('storeName', name).single();
+    if (data) {
       setCurrentStore(data)
-    }else{
+    } else {
       setCurrentStore([])
     }
   }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     getStore()
-  },[name])
+  }, [name])
   return store;
 }
 
 //use effect is important here because it looks for any changes re-rendering
 //getting always returns a ARRAY with data. use state data can get overwritten
-export function useCurrentFood(id: any){
+export function useCurrentFood(id: any) {
   const [food, setcurrentfood] = useState([])
-  const getFood = async() =>{
-    const {data,error} = await supabaseClient.from('food').select().eq('storeID', id).order('image', {ascending: false})
-    if (data){
+  const getFood = async () => {
+    const { data, error } = await supabaseClient.from('food').select().eq('storeID', id).order('image', { ascending: false })
+    if (data) {
       setcurrentfood(data)
-    }else{
+    } else {
       setcurrentfood([])
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     getFood();
-  },[id])
+  }, [id])
   return food;
 }
 
+export async function useSingleFood(id: any, foodName: any) {
+
+  const { data, error } = await supabaseClient
+    .from('food')
+    .select(`storeID, foodName, price, image, food_addons (
+      *,
+      add_ons(*)
+    )`)
+    .eq('storeID', id)
+    .eq('foodName', foodName)
+  if (data) {
+    return data
+  }
+  else {
+    return []
+  }
+
+}

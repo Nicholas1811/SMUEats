@@ -3,7 +3,7 @@ import styles from './Homepage.module.css';
 import { HeaderMegaMenu } from '../components/navbar';
 import { motion } from "motion/react";
 import { useState } from "react";
-import { Card, Image, Group, Text, Badge, Space, Container, Stack } from '@mantine/core';
+import { Card, Image, Group, Text, Badge, Space, Container, Stack, Skeleton } from '@mantine/core';
 import { Button } from '@mantine/core';
 import { Grid } from '@mantine/core';
 import { useStore } from '../backend/restaurants';
@@ -24,15 +24,15 @@ function randomPicker() {
 }
 
 function Homepage() {
-  const {session,loading} = useLogin();
+  const { session, loading } = useLogin();
   const stores = useStore();
   const [showSecond, setShowSecond] = useState(false);
   let randomImage = randomPicker();
-  
+
   return (
     <div className={styles.App}>
       <title>Home</title>
-      <HeaderMegaMenu/>
+      <HeaderMegaMenu />
       <div className={styles.holder}>
         {/* critical issue here. parent must prevent from overflowing. the previous value was size = 1300*/}
         <Container
@@ -98,8 +98,8 @@ function Homepage() {
       <div className={styles.containerHolder}>
         <Container size='lg' px='md' >
           <Grid px="md">
-            {
-              stores.map((store) => {
+            {stores &&
+              (stores.map((store) => {
                 let name = store.storeName;
                 return (
                   <Grid.Col span={{ xl: 4, lg: 4, md: 4, sm: 6, xs: 12 }}>
@@ -113,7 +113,7 @@ function Homepage() {
                       </Card.Section>
 
                       <Group justify="space-between" mt="md" mb="xs">
-                        <Text fw={600} size="lg">{store.storeName}</Text>
+                        <Text fw={600} size="lg" >{store.storeName}</Text>
                         <Badge color="teal" variant="light">{store.school}</Badge>
                       </Group>
 
@@ -127,23 +127,23 @@ function Homepage() {
 
 
                       </Stack>
-                      {session!= null && (
-                        <Link to={{pathname: `/store/${name}` }} state={store} style={{textDecoration:'None'}}>
-                        <Button variant = 'gradient' gradient= {{ from: '#a8e6a1', to: '#64d38c', deg: 135 }} fullWidth mt="md" radius="md">
-                          Order now
-                      </Button>
-                      </Link>
+                      {session != null && (
+                        <Link to={{ pathname: `/store/${name}` }} state={store} style={{ textDecoration: 'None' }}>
+                          <Button color='#00B14F' fullWidth mt="md" radius="md">
+                            Order now
+                          </Button>
+                        </Link>
                       )}
 
-                      {session== null && (
-                        <Link to={{pathname: "/" }} style={{textDecoration:'None'}}>
-                        <Button variant = 'gradient' gradient= {{ from: '#a8e6a1', to: '#64d38c', deg: 135}} fullWidth mt="md" radius="md">
-                          Sign up to order!
-                      </Button>
-                      </Link>
+                      {session == null && (
+                        <Link to={{ pathname: "/" }} style={{ textDecoration: 'None' }}>
+                          <Button color='#00B14F' fullWidth mt="md" radius="md">
+                            Sign up to order!
+                          </Button>
+                        </Link>
                       )}
-                      
-                      
+
+
                     </Card>
 
                   </Grid.Col>
@@ -151,7 +151,7 @@ function Homepage() {
 
                 )
 
-              })
+              }))
             }
           </Grid>
         </Container>
@@ -159,7 +159,7 @@ function Homepage() {
       </div>
 
 
-      <FooterSimple/>
+      <FooterSimple />
     </div>
 
 
