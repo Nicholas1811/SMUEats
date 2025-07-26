@@ -11,9 +11,7 @@ import Store from './frontend/Store';
 import Login from './frontend/Login';
 import Signup from './frontend/Signup';
 import Profile from './frontend/Profile';
-import  store  from './cart/store';
-import { Provider } from 'react-redux'
-
+import { Notifications } from '@mantine/notifications';
 
 //since this is your app's starting point, you will be able to use the variables here for the whole application.
 const router = createBrowserRouter([
@@ -56,11 +54,13 @@ const theme = createTheme({
 });
 root.render(
   <MantineProvider theme={theme}>
-    <React.StrictMode>
+    <Notifications/>
+    {/* <React.StrictMode> */}
+          
         <RouterProvider router={router}>
-          {/* <Provider store = {store}></Provider> */}
+          
         </RouterProvider>
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </MantineProvider>
 
 );

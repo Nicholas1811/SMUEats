@@ -1,19 +1,28 @@
 import { FooterSimple } from "../components/footer";
 import { HeaderMegaMenu } from "../components/navbar";
-import { Image, Title, Container, Grid, Anchor, Breadcrumbs, Space, Badge, Text, Card, Group, Button, Input, Stack, CloseButton, Radio, Checkbox } from "@mantine/core";
+import {
+    Image, Title, Container, Grid, Anchor, Breadcrumbs, Space, Badge,
+    Text, Card, Group, Button, Input, Stack, CloseButton, Radio, Checkbox, ActionIcon, Notification,
+    Dialog,
+    TextInput
+} from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useCurrentFood, useCurrentStore, useSingleFood } from "../backend/restaurants";
 import { useDisclosure } from '@mantine/hooks';
 import { Modal } from '@mantine/core';
-import { IconSearch } from '@tabler/icons-react';
-import { IconPlus } from '@tabler/icons-react';
+import { IconCheck, IconSearch } from '@tabler/icons-react';
+import { IconPlus, IconMinus } from '@tabler/icons-react';
 import { Accordion } from '@mantine/core';
 import { useForm } from "@mantine/form";
 import { IconPencil } from '@tabler/icons-react';
 import { sanitisePath, floatConvert } from "./helper";
 import { IconAlertTriangleFilled } from '@tabler/icons-react';
+import { useStore } from "../cartstore/cart";
+import { notifications } from '@mantine/notifications';
+
+
 function Store() {
     const location = useLocation();
     let { id } = useParams();
@@ -28,9 +37,12 @@ function Store() {
     const allFood = useCurrentFood(storeID);
     const [openAll, { toggle }] = useDisclosure(false);
     const [opened, { open, close }] = useDisclosure(false);
+    const [currentAmt, setCurrentAmt] = useState(1)
+
 
     const handleClose = () => {
         form.reset();
+        setCurrentAmt(1)
         errHolder.length = 0 // reset form to initial values
         close();      // close the modal (from useDisclosure)
     };
@@ -52,6 +64,8 @@ function Store() {
         </Anchor>
     ));
     const OpenModal = async (data: React.SetStateAction<null>) => {
+        setCurrentAmt(1)
+        form.reset()
         setSelected(data)
         const d = await useSingleFood(storeID, data)
         setFoodDet(d)
@@ -78,6 +92,7 @@ function Store() {
                     }
                 }
             });
+
         }
     }
     const form = useForm({
@@ -93,15 +108,48 @@ function Store() {
         })
     }
     let currentOrder = {}
+
+    const { addToCart, clearCart, cart } = useStore();
     const handleForm = (values: typeof form.values) => {
-        console.log(values,foodDet[0].foodName)
+        let price = 0
+        values.amt = currentAmt
         currentOrder[foodDet[0].foodName] = values
-        // You can add any other logic here, like opening a modal, navigating, etc.
-    };
-    if(Object.keys(currentOrder).length > 0){
         console.log(currentOrder)
+
+        addon.forEach((element) => {
+            let details = element.add_ons.addon;
+            console.log(details) // from db
+            if (Object.keys(currentOrder).length > 0) {
+                let currentSelection = currentOrder[foodDet[0].foodName][element.add_ons.addonName]
+                if (Array.isArray(currentSelection)) {
+                    currentSelection.forEach((e) => {
+                        price += details[e]
+                    });
+                } else {
+                    let addonPrice = details[currentSelection]
+                    price += addonPrice
+                }
+                // this is the way for my radio selections
+                //if currentSelection elements matches the details key, return price.
+            }
+        })
+        let finPrice = (price + parseFloat(foodDet[0].price)).toFixed(2)
+        currentOrder[foodDet[0].foodName].finPrice = finPrice
+        currentOrder[foodDet[0].foodName].shopID = foodDet[0].storeID
+        console.log(currentOrder)
+        addToCart(foodDet[0].foodName, currentOrder[foodDet[0].foodName]);
+        close();
+    };
+
+    const increaseAmt = () => {
+        setCurrentAmt(currentAmt + 1)
     }
 
+    const decreaseAmt = () => {
+        if (currentAmt > 1) {
+            setCurrentAmt(currentAmt - 1)
+        }
+    }
     return (
         <div>
             <HeaderMegaMenu />
@@ -200,8 +248,8 @@ function Store() {
                                             Object.entries(form.errors).map(([key, value]) => {
                                                 return (
                                                     <>
-                                                    <Text c='#bb2124' size='sm' fw={400}>{key} is empty.</Text>
-                                                    <Space h='0.25em'/></>
+                                                        <Text c='#bb2124' size='sm' fw={400}>{key} is empty.</Text>
+                                                        <Space h='0.25em' /></>
                                                 )
                                             })
                                         )
@@ -267,9 +315,7 @@ function Store() {
                                                                                             label={key}
                                                                                             size="sm"
                                                                                             checked={false}
-
                                                                                         />
-
                                                                                         <Text fw={350} size='sm' style={{ paddingTop: '0.75em' }}>+${floatConvert(value)}</Text>
                                                                                     </div>
                                                                                 )
@@ -285,8 +331,29 @@ function Store() {
                                                 </>
                                             )
                                         })}
-                                        <Button color="green" style={{ fontFamily: 'Helvetica', width: '100%' }} type="submit">Submit to order cart</Button>
+
+                                        <Space h='0.5em' />
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <ActionIcon variant="filled" color="#D3D3D3" radius="xl" size="md" onClick={increaseAmt}>
+                                                <IconPlus size={20} />
+                                            </ActionIcon>
+                                            <Space w="md" />
+                                            <Text c='black' fw={700}>{currentAmt}</Text>
+                                            <Space w="md" />
+                                            <ActionIcon variant="filled" color="#D3D3D3" radius="xl" size="md" onClick={decreaseAmt}>
+                                                <IconMinus stroke={2} />
+                                            </ActionIcon>
+                                        </div>
+
+                                        <Space h='0.5em' />
+                                        <Button color="green" style={{ fontFamily: 'Helvetica', width: '100%' }}
+                                            type="submit"
+                                        >Submit to order cart</Button>
+
                                     </form>
+                                    <Button color="green" style={{ fontFamily: 'Helvetica', width: '100%' }}
+                                            onClick={()=>{notifications.show({title:"Hi", "message": "Hello"})}}
+                                        >Submit to order cart</Button>
                                 </>
                             }
 
