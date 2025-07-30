@@ -11,7 +11,10 @@ import Store from './frontend/Store';
 import Login from './frontend/Login';
 import Signup from './frontend/Signup';
 import Profile from './frontend/Profile';
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 import { Notifications } from '@mantine/notifications';
+import Order from './frontend/Order';
 
 //since this is your app's starting point, you will be able to use the variables here for the whole application.
 const router = createBrowserRouter([
@@ -34,6 +37,18 @@ const router = createBrowserRouter([
   {
     path: '/profile',
     element: <Profile/>
+  },
+    {
+    path: '/Orders',
+    element: <Order/>
+  },
+  {
+    path: '/Orders/:pass',
+    element: <Order/>
+  },
+  {
+    path: '/Orders/:fail',
+    element: <Order/>
   }
 
 ])

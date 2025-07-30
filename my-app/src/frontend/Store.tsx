@@ -35,7 +35,6 @@ function Store() {
     const currentStoreDet = useCurrentStore(id);
     const storeID = currentStoreDet.id;
     const allFood = useCurrentFood(storeID);
-    const [openAll, { toggle }] = useDisclosure(false);
     const [opened, { open, close }] = useDisclosure(false);
     const [currentAmt, setCurrentAmt] = useState(1)
 
@@ -109,10 +108,10 @@ function Store() {
     }
     let currentOrder = {}
 
-    const { addToCart, clearCart, cart } = useStore();
+    const store = useStore();
+    console.log(store)
     const handleForm = (values: typeof form.values) => {
         let price = 0
-        values.amt = currentAmt
         currentOrder[foodDet[0].foodName] = values
         console.log(currentOrder)
 
@@ -121,26 +120,40 @@ function Store() {
             console.log(details) // from db
             if (Object.keys(currentOrder).length > 0) {
                 let currentSelection = currentOrder[foodDet[0].foodName][element.add_ons.addonName]
-                if (Array.isArray(currentSelection)) {
-                    currentSelection.forEach((e) => {
-                        price += details[e]
-                    });
-                } else {
-                    let addonPrice = details[currentSelection]
-                    price += addonPrice
+                if (currentSelection != undefined) {
+                    if (Array.isArray(currentSelection)) {
+                        currentSelection.forEach((e) => {
+                            price += details[e]
+                        });
+                    } else {
+                        let addonPrice = details[currentSelection]
+
+                        price += addonPrice
+                    }
                 }
+
                 // this is the way for my radio selections
                 //if currentSelection elements matches the details key, return price.
             }
         })
+        console.log(price, parseFloat(foodDet[0].price).toFixed(2))
         let finPrice = (price + parseFloat(foodDet[0].price)).toFixed(2)
         currentOrder[foodDet[0].foodName].finPrice = finPrice
         currentOrder[foodDet[0].foodName].shopID = foodDet[0].storeID
+        currentOrder[foodDet[0].foodName].image = foodDet[0].image
         console.log(currentOrder)
-        addToCart(foodDet[0].foodName, currentOrder[foodDet[0].foodName]);
+        
+        if(store){
+             store.addToCart(foodDet[0].foodName, currentOrder[foodDet[0].foodName], currentAmt);
+        }
+       
         close();
+        notifications.show({
+            title: `Item added!`,
+            message: `You have added ${foodDet[0].foodName} into your cart`,
+            color: 'green',
+        })
     };
-
     const increaseAmt = () => {
         setCurrentAmt(currentAmt + 1)
     }
@@ -334,15 +347,16 @@ function Store() {
 
                                         <Space h='0.5em' />
                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <ActionIcon variant="filled" color="#D3D3D3" radius="xl" size="md" onClick={increaseAmt}>
-                                                <IconPlus size={20} />
+                                            <ActionIcon variant="filled" color="#D3D3D3" radius="xl" size="md" onClick={decreaseAmt}>
+                                                <IconMinus stroke={2} />
                                             </ActionIcon>
                                             <Space w="md" />
                                             <Text c='black' fw={700}>{currentAmt}</Text>
                                             <Space w="md" />
-                                            <ActionIcon variant="filled" color="#D3D3D3" radius="xl" size="md" onClick={decreaseAmt}>
-                                                <IconMinus stroke={2} />
+                                            <ActionIcon variant="filled" color="#D3D3D3" radius="xl" size="md" onClick={increaseAmt}>
+                                                <IconPlus size={20} />
                                             </ActionIcon>
+
                                         </div>
 
                                         <Space h='0.5em' />
@@ -351,9 +365,6 @@ function Store() {
                                         >Submit to order cart</Button>
 
                                     </form>
-                                    <Button color="green" style={{ fontFamily: 'Helvetica', width: '100%' }}
-                                            onClick={()=>{notifications.show({title:"Hi", "message": "Hello"})}}
-                                        >Submit to order cart</Button>
                                 </>
                             }
 

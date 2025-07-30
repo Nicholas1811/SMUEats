@@ -7,6 +7,7 @@ import {
   Divider,
   Drawer,
   Group,
+  Menu,
   ScrollArea,
   Text,
 } from '@mantine/core';
@@ -19,6 +20,8 @@ import { NavLink } from "react-router-dom";
 import { useLogin } from '../backend/auth/authcheck';
 import { useUserTable } from '../backend/auth/authcheck';
 import { useLocation } from 'react-router-dom';
+import { IconArrowsLeftRight, IconMessageCircle, IconPhoto, IconReceipt, IconSearch, IconSettings, IconTrash } from '@tabler/icons-react';
+import { IconShoppingCart } from '@tabler/icons-react';
 
 
 
@@ -112,16 +115,30 @@ export function HeaderMegaMenu() {
 
           <Group h="100%" gap={0} visibleFrom="cus" className='alignGroup' justify='flex-end' style={{ flexGrow: 1 }}>
             <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} component={NavLink} to='/'>
-                <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Home</Text>
+              <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Home</Text>
             </Button>
 
-            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} component={NavLink} to='/'>
-              <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Orders</Text>
-              
-            </Button>
+
+            <Menu shadow="md" width={175} offset={0}>
+              <Menu.Target>
+                <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
+                  <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Orders</Text>
+                </Button>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Label>Order Selections</Menu.Label>
+                <Menu.Item leftSection={<IconShoppingCart size={20} />} component={NavLink} to='/Orders'>
+                  Current Cart
+                </Menu.Item>
+                <Menu.Item leftSection={<IconReceipt size={20} />}>
+                  Previous Orders
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+
             <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} component={NavLink} to='/'>
               <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Food</Text>
-              
             </Button>
           </Group>
 
@@ -148,8 +165,11 @@ export function HeaderMegaMenu() {
             </NavLink>
           </Button>
 
+
           <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
-            <Text c='#505050' fw={500}>Orders</Text>
+            <NavLink to='/Orders'>
+              <Text c='#505050' fw={500}>Orders</Text>
+            </NavLink>
           </Button>
           <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
             <Text c='#505050' fw={500}>Food</Text>

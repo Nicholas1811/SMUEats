@@ -113,10 +113,10 @@ export default function Profile() {
                                             disabled
                                             description="You are unable to update your email"
                                         /> 
-                                        <Group align="center" w="100%" gap={0} justify="center" style={{justifyContent: 'space-between'}}>
-                                            <Button onClick={handleLogout}>Update Account</Button>
-                                            <Button onClick={handleLogout}>Logout</Button>
-                                        </Group>
+                                        <Stack align="center" w="100%" gap={5} justify="center" style={{justifyContent: 'space-between'}}>
+                                            <Button onClick={handleLogout} w='50%'>Update Details</Button>
+                                            <Button onClick={handleLogout} w='50%'>Logout Account</Button>
+                                        </Stack>
 
                                         
                                         </>
