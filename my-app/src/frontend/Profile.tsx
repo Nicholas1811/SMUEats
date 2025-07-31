@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 export default function Profile() {
     const { session, loading } = useLogin();
+    console.log(session,loading)
     const navigate = useNavigate();
     const handleLogout = async () => {
         const sucess = await logout();

@@ -5,7 +5,13 @@ export async function signin(email: any, password: any) {
         email: email,
         password: password
     });
-    return { data, error }
+    if(data){
+        return data
+    }
+    if(error){
+        return []
+    }
+    
 }
 
 export async function logout() {

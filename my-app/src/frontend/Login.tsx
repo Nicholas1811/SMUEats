@@ -12,14 +12,14 @@ function Login() {
     const [userError, setUserError] = useState(false);
     const handleSubmit = async (values: { email: any; password: any; }) => {
         //e.preventDefault(); mantine auto calls
-        const { data, error } = await signin(values.email, values.password)
-
-        if (error) {
-            setUserError(true)
-            console.log(error)
-        } else {
+        const data = await signin(values.email, values.password)
+        console.log(data)
+        if (data) {
             navigate("/profile")
             console.log("Welcome user", data)
+        } else {
+            setUserError(true)
+            console.log(data.code)
         }
     }
     const form = useForm({
