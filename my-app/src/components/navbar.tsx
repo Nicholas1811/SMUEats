@@ -131,7 +131,7 @@ export function HeaderMegaMenu() {
                 <Menu.Item leftSection={<IconShoppingCart size={20} />} component={NavLink} to='/Orders'>
                   Current Cart
                 </Menu.Item>
-                <Menu.Item leftSection={<IconReceipt size={20} />}>
+                <Menu.Item leftSection={<IconReceipt size={20} />} component={NavLink} to ='/prevOrder'>
                   Previous Orders
                 </Menu.Item>
               </Menu.Dropdown>

@@ -54,7 +54,6 @@ export function useCurrentFood(id: any) {
 }
 
 export async function useSingleFood(id: any, foodName: any) {
-
   const { data, error } = await supabaseClient
     .from('food')
     .select(`storeID, foodName, price, image, food_addons (
@@ -69,5 +68,21 @@ export async function useSingleFood(id: any, foodName: any) {
   else {
     return []
   }
+}
 
+export async function getAddon(id: any, foodName: any) {
+  const { data, error } = await supabaseClient
+    .from('food')
+    .select(`storeID, foodName, food_addons (
+      *,
+      add_ons(*)
+    )`)
+    .eq('storeID', id)
+    .eq('foodName', foodName)
+  if (data) {
+    return data
+  }
+  else {
+    return []
+  }
 }

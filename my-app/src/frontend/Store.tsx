@@ -138,6 +138,7 @@ function Store() {
         })
         console.log(price, parseFloat(foodDet[0].price).toFixed(2))
         let finPrice = (price + parseFloat(foodDet[0].price)).toFixed(2)
+        currentOrder[foodDet[0].foodName].price = foodDet[0].price
         currentOrder[foodDet[0].foodName].finPrice = finPrice
         currentOrder[foodDet[0].foodName].shopID = foodDet[0].storeID
         currentOrder[foodDet[0].foodName].image = foodDet[0].image

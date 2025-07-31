@@ -11,24 +11,27 @@ import { notifications } from "@mantine/notifications";
 import payItem from "../backend/payment";
 import { useSearchParams } from 'react-router-dom';
 import { useLogin } from "../backend/auth/authcheck";
-import addOrder from "../backend/order";
-
+import { addOrder, addOrderItem } from "../backend/order";
+import { getAddon, useSingleFood } from "../backend/restaurants";
 
 function Order() {
 
     const store = useStore();
-    let cart = ""
-    if (store) {
-        cart = store.cart
-    }
+
+
     const empty = () => {
         if (store) {
             store.clearCart();
         }
 
     }
+    let cart: any = [];
+    console.log(store)
+    cart = store.cart
     let finPrice = 0;
+
     Object.entries(cart).map(([key, value]) => {
+
         value.map((e: { finPrice: string | number; totalAmt: number; }) => {
             if (e.finPrice != 'NaN') {
                 finPrice += Number(e.finPrice * e.totalAmt);
@@ -58,27 +61,65 @@ function Order() {
                 let curusrid = ""
                 if (res) {
                     closeOverlay();
-
                     checkoutID = res[1]
                 }
                 if (userSession && !isLoading) {
                     curusrid = userSession['user']['id']
                 }
                 if (curusrid && checkoutID && finPrice) {
-                    const data = await addOrder(curusrid, finPrice, checkoutID)
-                    console.log(data)
-                    if (data) {
-                        window.location = res[0]
+                    const orderID = await addOrder(curusrid, finPrice, checkoutID) //orderid here
+                    console.log(orderID)
+
+                    let addonb = {}
+                    let fp = 0
+                    let q = 0
+                    if (orderID) {
+                        for (const k in cart) {
+                            if (cart[k].length > 0) {
+                                let currentItem = []
+                                currentItem = cart[k]
+                                if (currentItem) {
+                                    currentItem.forEach((element: any) => {
+                                        fp = element.finPrice
+                                        q = element.totalAmt
+                                        Object.entries(element).map(([key, value]) => {
+                                            if (key != "finPrice" && key != "shopID" && key != "totalAmt" && key != "image") {
+                                                fp = element.finPrice;
+                                                console.log(fp)
+                                                if (typeof value == "string") {
+                                                    addonb[key] = value.toString();
+                                                } else {
+                                                    addonb[key] = value
+                                                }
+
+                                            }
+
+                                        })
+
+                                    });
+                                }
+
+                            }
+                            console.log(cart[k][0])
+                            let newSID = 0;
+                            if (cart[k][0] !== undefined) {
+                                newSID = cart[k][0].shopID
+                            }
+                            const orderID = await addOrder(curusrid, finPrice, checkoutID) //orderid here
+                            if (orderID) {
+                                const res = await addOrderItem(orderID, newSID, k, addonb, fp * q, q)
+                            }
+
+                        }
+                        store.clearCart();
+                        //window.location = res[0]
                     }
                 }
             }
-            // add code to add to orderDB
-            // in which adds to a order item
-            //orderID, userID, dateCreated, totalAmount, checkoutSessionID, isCompleted
-            //orderID, storeID, foodName, item price,
+
         }
 
-    })
+    });
     const [searchParams, setSearchParams] = useSearchParams();
     useEffect(() => {
         const res = searchParams.get('cond')
@@ -99,6 +140,51 @@ function Order() {
         }
     }, [])
     let displayQuan = 0;
+    console.log(cart)
+    let temp = {};
+    const [addonTemp, setAddonTemp] = useState({});
+
+    useEffect(() => {
+        const buildAddonTemp = async () => {
+            const temp: any = {};
+
+            for (const [name, orderSet] of Object.entries(cart)) {
+                if (orderSet[0] !== undefined) {
+                    const tempsid = orderSet[0].shopID;
+
+                    try {
+                        const result = await getAddon(tempsid, name);
+
+                        for (const item of result) {
+                            const foodAddons = item.food_addons;
+                            const tempHolder: any[] = [];
+
+                            if (foodAddons.length > 0) {
+                                for (const addon of foodAddons) {
+                                    tempHolder.push({ [addon.add_ons.addonName]: addon.add_ons.addon });
+                                }
+                                temp[name] = tempHolder;
+                            }
+                        }
+                    } catch (err) {
+                        console.error(`Error fetching add-ons for ${name}:`, err);
+                    }
+                }
+            }
+
+            setAddonTemp(temp);
+        };
+
+        buildAddonTemp();
+    }, [cart]); // re-run this when cart updates
+
+
+
+    console.log(addonTemp, 'line')
+
+    let addonFromDB: any = [];
+
+
 
     return (
         <div>
@@ -122,7 +208,8 @@ function Order() {
                                             <Table.Th></Table.Th>
                                             <Table.Th>Product</Table.Th>
                                             <Table.Th>Other</Table.Th>
-                                            <Table.Th>Price</Table.Th>
+                                            <Table.Th>Original Price</Table.Th>
+                                            <Table.Th>Final Price</Table.Th>
                                             <Table.Th>Quantity</Table.Th>
                                             <Table.Th>Subtotal</Table.Th>
                                             <Table.Th>Modifications</Table.Th>
@@ -130,61 +217,100 @@ function Order() {
                                     </Table.Thead>
                                     <Table.Tbody>
                                         {
-                                        
-                                        Object.entries(cart).map(([mainKey, value]) => {
 
-                                            return (
-                                                <>
-                                                    {Array.isArray(value) &&
-                                                        value.map((ele) => {
-                                                            displayQuan += ele.totalAmt
-                                                            return (
-                                                                <Table.Tr onClick={ModalOpen}>
-                                                                    <Table.Td>
-                                                                        {(ele.image !== "") ?
-                                                                            <Image src={ele.image} w={100} h={100} radius={10} /> :
-                                                                            <></>}
+                                            Object.entries(cart).map(([mainKey, v]) => {
+                                                addonFromDB = addonTemp[mainKey]//calling the food alr
+                                                console.log(addonFromDB)
+                                                console.log(mainKey, v)
+                                                return (
+                                                    <>
+                                                        {Array.isArray(v) &&
+                                                            v.map((ele) => {
+                                                                
+                                                                displayQuan += ele.totalAmt
+                                                                return (
+                                                                    <Table.Tr onClick={ModalOpen}>
+                                                                        <Table.Td>
+                                                                            {(ele.image !== "") ?
+                                                                                <Image src={ele.image} w={100} h={100} radius={10} /> :
+                                                                                <></>}
 
 
-                                                                    </Table.Td>
-                                                                    <Table.Td>
-                                                                        <Text fw={700}>{mainKey}</Text>
+                                                                        </Table.Td>
+                                                                        <Table.Td>
+                                                                            <Text fw={700}>{mainKey}</Text>
 
-                                                                    </Table.Td>
-                                                                    <Table.Td>
-                                                                        {Object.entries(ele).map(([key, value]) => {
-                                                                            if (key !== "finPrice" && key !== 'shopID' && key !== 'image' && key !== 'totalAmt') {
-                                                                                return (
-                                                                                    <>
-                                                                                        <Text size="xs" fw={700}>{key}</Text>
-                                                                                        {(Array.isArray(value)) ?
-                                                                                            (<Text size='xs'>{value.toString()}</Text>
-                                                                                            ) :
-                                                                                            (
-                                                                                                <Text size='xs'>{value}</Text>
-                                                                                            )}
-                                                                                    </>
+                                                                        </Table.Td>
+                                                                        <Table.Td>
+                                                                            {
+                                                                                Object.entries(ele).map(([key, value]) => {
+                                                                                    let curitemprice = 0;
+                                                                                    let totalCurrentPrice = 0;
 
-                                                                                );
-                                                                            }
+                                                                                    if (key !== "finPrice" && key !== 'shopID' && key !== 'image' && key !== 'totalAmt' && key !== 'price') {
 
-                                                                        })}
-                                                                    </Table.Td>
-                                                                    <Table.Td>S${ele.finPrice}</Table.Td>
-                                                                    <Table.Td>{ele.totalAmt}</Table.Td>
-                                                                    <Table.Td>S${(ele.finPrice * ele.totalAmt).toFixed(2)}</Table.Td>
-                                                                    <Table.Td>
+                                                                                        if (addonFromDB !== undefined) {
+                                                                                            addonFromDB.map((addonDet: any) => {
+                                                                                                if (!Array.isArray(value)) {
+                                                                                                    if (addonDet[key] !== undefined) {
+                                                                                                        console.log(addonDet[key][value], key)
+                                                                                                        curitemprice = addonDet[key][value]
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    if (addonDet[key] !== undefined) {
+                                                                                                        value.forEach((i) => {
+                                                                                                            console.log(addonDet[key], value, 'line 262')
+                                                                                                            if (addonDet[key][i] !== undefined) {
+                                                                                                                totalCurrentPrice += addonDet[key][i]
+                                                                                                            }
+                                                                                                        })
+                                                                                                    }
+                                                                                                }
+                                                                                            })
+                                                                                        }
 
-                                                                        <IconPencil />
-                                                                        <IconTrash color="red" onClick={() => { customOpen(mainKey, value) }} />
-                                                                    </Table.Td>
-                                                                </Table.Tr>
-                                                            );
-                                                        })}
-                                                </>
-                                            );
+                                                                                        return (
+                                                                                            <>
+                                                                                                <Text size="xs" fw={700}>{key}</Text>
+                                                                                                {
 
-                                        })}
+
+                                                                                                    (Array.isArray(value)) ?
+                                                                                                        (
+                                                                                                            <Text size='xs'>{value.toString()}, +S${totalCurrentPrice.toFixed(2)}</Text>
+                                                                                                        )
+                                                                                                        :
+                                                                                                        (
+                                                                                                            <Text size='xs'>{value}, +S${curitemprice}</Text>
+                                                                                                        )
+
+                                                                                                }
+
+
+                                                                                            </>
+
+                                                                                        );
+
+                                                                                    }
+
+                                                                                })}
+                                                                        </Table.Td>
+                                                                        <Table.Td>S${ele.price}</Table.Td>
+                                                                        <Table.Td>S${ele.finPrice}</Table.Td>
+                                                                        <Table.Td>{ele.totalAmt}</Table.Td>
+                                                                        <Table.Td>S${(ele.finPrice * ele.totalAmt).toFixed(2)}</Table.Td>
+                                                                        <Table.Td>
+
+                                                                            <IconPencil />
+                                                                            <IconTrash color="red" onClick={() => { customOpen(mainKey, v) }} />
+                                                                        </Table.Td>
+                                                                    </Table.Tr>
+                                                                );
+                                                            })}
+                                                    </>
+                                                );
+
+                                            })}
                                     </Table.Tbody>
                                 </Table>
                             </Table.ScrollContainer>
@@ -219,7 +345,7 @@ function Order() {
                                             <Table.Td>S${finPrice.toFixed(2)}</Table.Td>
                                         </Table.Tr>
 
-                                        
+
 
                                         <Table.Tr>
                                             <Table.Td></Table.Td>
@@ -287,6 +413,7 @@ function Delete({
     }
 
     const store = useStore();
+    console.log(store.cart)
     const makeChange = (kn: any, f: any) => {
         store.updateAmount(kn, f[0], curAmt)
         notifications.show({
