@@ -1,4 +1,4 @@
-import { Anchor, Container, Group } from '@mantine/core';
+import { Anchor, Container, Group,Image } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './FooterSimple.module.css';
 import React from 'react';
@@ -26,7 +26,8 @@ export function FooterSimple() {
   return (
     <div className={classes.footer}>
       <Container className={classes.inner}>
-        <MantineLogo size={28} />
+        <Image src = 'https://emmwtceslmtkkjpujrtk.supabase.co/storage/v1/object/public/logo//Screenshot%202025-07-31%20at%2014.03.00.png' h={50} w={200} ml={-17}/>
+        {/* <MantineLogo size={28} /> */}
         <Group className={classes.links}>{items}</Group>
       </Container>
     </div>

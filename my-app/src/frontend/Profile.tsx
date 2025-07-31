@@ -115,8 +115,8 @@ export default function Profile() {
                                             description="You are unable to update your email"
                                         /> 
                                         <Stack align="center" w="100%" gap={5} justify="center" style={{justifyContent: 'space-between'}}>
-                                            <Button onClick={handleLogout} w='50%'>Update Details</Button>
-                                            <Button onClick={handleLogout} w='50%'>Logout Account</Button>
+                                            <Button onClick={handleLogout} w='50%' color="#00B14F">Update Details</Button>
+                                            <Button onClick={handleLogout} w='50%' color='red'>Logout Account</Button>
                                         </Stack>
 
                                         

@@ -10,6 +10,7 @@ import {
   Menu,
   ScrollArea,
   Text,
+  Image
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { MantineLogo } from '@mantinex/mantine-logo';
@@ -76,13 +77,21 @@ function PCheck() {
   if (session && !loading && currentData) {
     uname = currentData.username
     return (
-      <Stack style={{ alignItems: 'center' }}>
-        <NavLink to='/profile'>
-          <Button color='#00B14F' radius="md">
-            <Text fw={400} size='lg' >Profile</Text>
+      <NavLink to='/profile' style={{ textDecoration: 'none' }}>
+        <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui', textDecoration:'none' }} >
+            <Text c='#505050' fw={500} style={{textDecoration: 'none'}}>Profile</Text>
           </Button>
-        </NavLink>
-      </Stack>
+          <Divider my="sm" />
+      </NavLink>
+      
+                
+      // <Stack style={{ alignItems: 'center' }}>
+      //   <NavLink to='/profile'>
+      //     <Button color='#00B14F' radius="md">
+      //       <Text fw={400} size='lg' >Profile</Text>
+      //     </Button>
+      //   </NavLink>
+      // </Stack>
 
     );
   }
@@ -111,8 +120,8 @@ export function HeaderMegaMenu() {
     <Box pb={0} style={{ width: '100%' }} c='#00B14F'>
       <header className={classes.header} color='#00B14F'>
         <Group justify="space-between" h="100%">
-          <MantineLogo size={30} />
-
+          {/*<MantineLogo size={30} /> */}
+          <Image src = 'https://emmwtceslmtkkjpujrtk.supabase.co/storage/v1/object/public/logo//Screenshot%202025-07-31%20at%2014.03.00.png' h={50} w={200} ml={-17}/>
           <Group h="100%" gap={0} visibleFrom="cus" className='alignGroup' justify='flex-end' style={{ flexGrow: 1 }}>
             <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} component={NavLink} to='/'>
               <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Home</Text>
@@ -136,10 +145,6 @@ export function HeaderMegaMenu() {
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
-
-            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} component={NavLink} to='/'>
-              <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Food</Text>
-            </Button>
           </Group>
 
           <ProfileCheck />
@@ -167,16 +172,11 @@ export function HeaderMegaMenu() {
 
 
           <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
-            <NavLink to='/Orders'>
+            <NavLink to='/Orders' style={{ textDecoration: 'none' }}>
               <Text c='#505050' fw={500}>Orders</Text>
             </NavLink>
           </Button>
-          <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
-            <Text c='#505050' fw={500}>Food</Text>
-          </Button>
-
-
-          <Divider my="sm" />
+          
           <Box>
 
             <PCheck />
