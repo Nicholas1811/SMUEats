@@ -168,6 +168,7 @@ export function HeaderMegaMenu() {
         onClose={closeDrawer}
         size="100%"
         padding="md"
+        lockScroll={false}
         title="SMUEats"
         hiddenFrom="cus"
         zIndex={1000000}
