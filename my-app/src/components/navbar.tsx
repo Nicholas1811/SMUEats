@@ -105,7 +105,7 @@ function PCheck() {
           <NavLink to='/login'>
             <Button color='#00B14F' w={350}>Log in</Button>
           </NavLink>
-          <Button color='#00B14F' w={350}>Sign up</Button>ƒ
+          <Button color='#00B14F' w={350}>Sign up</Button>
           <NavLink to='/signup'>
           </NavLink>
         </Stack>
@@ -180,12 +180,17 @@ export function HeaderMegaMenu() {
           </Button>
 
 
+          
+
+          {session !== null &&
+          <>
           <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui', width: '100%' }} onClick={toggle}
             fullWidth
           >
 
 
-            <Group justify="space-between" styles={{width:'100%'
+            <Group justify="space-between" styles={{
+              width: '100%'
             }}>
               <Text c='#505050' fw={500}>Orders</Text>
               <IconCaretDownFilled />
@@ -193,25 +198,28 @@ export function HeaderMegaMenu() {
 
 
           </Button>
+            <Collapse in={opened} transitionDuration={500} transitionTimingFunction="linear">
+              <Space w={10} />
+              <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} ml={10}>
+                <NavLink to='/Orders' style={{ textDecoration: 'none' }}>
 
-          <Collapse in={opened} transitionDuration={500} transitionTimingFunction="linear">
-            <Space w={10} />
-            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} ml={10}>
-              <NavLink to='/Orders' style={{ textDecoration: 'none' }}>
+                  <Text c='#505050' fw={500} size='xs'>Current Cart</Text>
+                </NavLink>
 
-                <Text c='#505050' fw={500} size='xs'>Current Cart</Text>
-              </NavLink>
+              </Button>
 
-            </Button>
+              <Space w={10} />
+              <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} ml={10} mt={-10}>
+                <NavLink to='/prevOrder' style={{ textDecoration: 'none' }}>
 
-            <Space w={10} />
-            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} ml={10} mt={-10}>
-              <NavLink to='/prevOrder' style={{ textDecoration: 'none' }}>
+                  <Text c='#505050' fw={500} size='xs'>Previous Orders</Text>
+                </NavLink>
+              </Button>
+            </Collapse>
+          </>
+          
+          }
 
-                <Text c='#505050' fw={500} size='xs'>Previous Orders</Text>
-              </NavLink>
-            </Button>
-          </Collapse>
 
           <Box>
 
