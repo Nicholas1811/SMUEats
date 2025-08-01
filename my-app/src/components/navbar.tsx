@@ -103,10 +103,11 @@ function PCheck() {
       return (
         <Stack style={{ alignItems: 'center' }}>
           <NavLink to='/login'>
-            <Button color='#00B14F' w={350}>Log in</Button>
+            <Button color='#00B14F' w={350} key='login'>Log in</Button>
           </NavLink>
-          <Button color='#00B14F' w={350}>Sign up</Button>
+          
           <NavLink to='/signup'>
+          <Button color='#00B14F' w={350} key='signup'>Sign up</Button>
           </NavLink>
         </Stack>
       );
@@ -184,8 +185,8 @@ export function HeaderMegaMenu() {
 
           {session !== null &&
           <>
-          <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui', width: '100%' }} onClick={toggle}
-            fullWidth
+          <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui', width: '100%', justifyContent: 'space-between' }} onClick={toggle}
+            fullWidth rightSection = { <IconCaretDownFilled />}
           >
 
 
@@ -193,7 +194,7 @@ export function HeaderMegaMenu() {
               width: '100%'
             }}>
               <Text c='#505050' fw={500}>Orders</Text>
-              <IconCaretDownFilled />
+             
             </Group>
 
 
