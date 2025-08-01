@@ -5,12 +5,14 @@ export async function signin(email: any, password: any) {
         email: email,
         password: password
     });
-    if(data){
-        return data
-    }
+    console.log(data, error)
     if(error){
         return []
     }
+    if(data){
+        return data
+    }
+    
     
 }
 

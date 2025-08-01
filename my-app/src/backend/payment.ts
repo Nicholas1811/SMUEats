@@ -10,7 +10,6 @@ async function payItem(price: any,email: any){
         return [];
     }
     if(data){
-        //window.location = data.url
         console.log(data,'data field')
         return [data.url,data.id]
     }

@@ -10,7 +10,9 @@ import {
   Menu,
   ScrollArea,
   Text,
-  Image
+  Image,
+  Collapse,
+  Space
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { MantineLogo } from '@mantinex/mantine-logo';
@@ -23,6 +25,7 @@ import { useUserTable } from '../backend/auth/authcheck';
 import { useLocation } from 'react-router-dom';
 import { IconArrowsLeftRight, IconMessageCircle, IconPhoto, IconReceipt, IconSearch, IconSettings, IconTrash } from '@tabler/icons-react';
 import { IconShoppingCart } from '@tabler/icons-react';
+import { IconCaretDownFilled } from '@tabler/icons-react';
 
 
 
@@ -52,11 +55,11 @@ function ProfileCheck() {
   return (
     <Group visibleFrom="cus">
       <NavLink to='/login'>
-        <Button color='green' radius="md" variant='gradient' gradient={{ from: '#11998e', to: '#38ef7d', deg: 135 }}>Login</Button>
+        <Button color='#00B14F' radius="md" >Login</Button>
       </NavLink>
 
       <NavLink to='/signup'>
-        <Button color='green' radius="md" variant='gradient' gradient={{ from: '#11998e', to: '#38ef7d', deg: 135 }}>Sign up</Button>
+        <Button color='#00B14F' radius="md">Sign up</Button>
       </NavLink>
     </Group>
   )
@@ -78,13 +81,13 @@ function PCheck() {
     uname = currentData.username
     return (
       <NavLink to='/profile' style={{ textDecoration: 'none' }}>
-        <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui', textDecoration:'none' }} >
-            <Text c='#505050' fw={500} style={{textDecoration: 'none'}}>Profile</Text>
-          </Button>
-          <Divider my="sm" />
+        <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui', textDecoration: 'none' }} >
+          <Text c='#505050' fw={500} style={{ textDecoration: 'none' }}>Profile</Text>
+        </Button>
+        <Divider my="sm" />
       </NavLink>
-      
-                
+
+
       // <Stack style={{ alignItems: 'center' }}>
       //   <NavLink to='/profile'>
       //     <Button color='#00B14F' radius="md">
@@ -116,12 +119,14 @@ function PCheck() {
 export function HeaderMegaMenu() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const location = useLocation();
+  const { session, loading } = useLogin();
+  const [opened, { toggle }] = useDisclosure(false);
   return (
     <Box pb={0} style={{ width: '100%' }} c='#00B14F'>
       <header className={classes.header} color='#00B14F'>
         <Group justify="space-between" h="100%">
           {/*<MantineLogo size={30} /> */}
-          <Image src = 'https://emmwtceslmtkkjpujrtk.supabase.co/storage/v1/object/public/logo//Screenshot%202025-07-31%20at%2014.03.00.png' h={50} w={200} ml={-17}/>
+          <Image src='https://emmwtceslmtkkjpujrtk.supabase.co/storage/v1/object/public/logo//Screenshot%202025-07-31%20at%2014.03.00.png' h={50} w={200} ml={-17} />
           <Group h="100%" gap={0} visibleFrom="cus" className='alignGroup' justify='flex-end' style={{ flexGrow: 1 }}>
             <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} component={NavLink} to='/'>
               <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Home</Text>
@@ -129,18 +134,22 @@ export function HeaderMegaMenu() {
 
 
             <Menu shadow="md" width={175} offset={0}>
-              <Menu.Target>
-                <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
-                  <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Orders</Text>
-                </Button>
-              </Menu.Target>
 
+              {
+                session !== null &&
+                <Menu.Target>
+                  <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
+                    <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Orders</Text>
+
+                  </Button>
+                </Menu.Target>
+              }
               <Menu.Dropdown>
                 <Menu.Label>Order Selections</Menu.Label>
                 <Menu.Item leftSection={<IconShoppingCart size={20} />} component={NavLink} to='/Orders'>
                   Current Cart
                 </Menu.Item>
-                <Menu.Item leftSection={<IconReceipt size={20} />} component={NavLink} to ='/prevOrder'>
+                <Menu.Item leftSection={<IconReceipt size={20} />} component={NavLink} to='/prevOrder'>
                   Previous Orders
                 </Menu.Item>
               </Menu.Dropdown>
@@ -171,12 +180,39 @@ export function HeaderMegaMenu() {
           </Button>
 
 
-          <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
-            <NavLink to='/Orders' style={{ textDecoration: 'none' }}>
+          <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui', width: '100%' }} onClick={toggle}
+            fullWidth
+          >
+
+
+            <Group justify="space-between" styles={{width:'100%'
+            }}>
               <Text c='#505050' fw={500}>Orders</Text>
-            </NavLink>
+              <IconCaretDownFilled />
+            </Group>
+
+
           </Button>
-          
+
+          <Collapse in={opened} transitionDuration={500} transitionTimingFunction="linear">
+            <Space w={10} />
+            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} ml={10}>
+              <NavLink to='/Orders' style={{ textDecoration: 'none' }}>
+
+                <Text c='#505050' fw={500} size='xs'>Current Cart</Text>
+              </NavLink>
+
+            </Button>
+
+            <Space w={10} />
+            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} ml={10} mt={-10}>
+              <NavLink to='/prevOrder' style={{ textDecoration: 'none' }}>
+
+                <Text c='#505050' fw={500} size='xs'>Previous Orders</Text>
+              </NavLink>
+            </Button>
+          </Collapse>
+
           <Box>
 
             <PCheck />

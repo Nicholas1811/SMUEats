@@ -5,6 +5,7 @@ import { logout } from "../backend/auth/login";
 import { HeaderMegaMenu } from "../components/navbar";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { FooterSimple } from "../components/footer";
 export default function Profile() {
     const { session, loading } = useLogin();
     console.log(session,loading)
@@ -44,7 +45,12 @@ export default function Profile() {
 
         const email = session.user.email
         return (
-            <AnimatePresence>
+            <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+             <AnimatePresence>
                 <HeaderMegaMenu />
                 <motion.div className="Login"
                     initial='initialState'
@@ -68,7 +74,7 @@ export default function Profile() {
                         }
                     }
                 >
-                    <Container size='md' pt='3rem' h="3rem">
+                    <Container size='md' pt='3rem'>
                         <Grid gutter={0}>
                             <Grid.Col span={{ xl: 6, lg: 6, md: 6, sm: 6, xs: 6 }} h="40rem">
                                 <Card shadow="xl" padding="lg" radius="md" withBorder style={{
@@ -138,8 +144,14 @@ export default function Profile() {
                         </Grid>
                     </Container>
                 </motion.div>
-
+                
+                           
             </AnimatePresence>
+            <FooterSimple/>             
+            
+            </div>
+           
+            
         )
     }
 

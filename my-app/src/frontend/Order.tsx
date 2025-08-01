@@ -55,7 +55,7 @@ function Order() {
         if (store) {
             if (finPrice) {
                 //left with adding to order items for this portion.
-                const res = await payItem(finPrice, "nicholassdl660@gmail.com");
+                const res = await payItem(finPrice.toFixed(2), "nicholassdl660@gmail.com");
                 console.log(res)
                 let checkoutID = "";
                 let curusrid = ""
@@ -105,14 +105,13 @@ function Order() {
                             if (cart[k][0] !== undefined) {
                                 newSID = cart[k][0].shopID
                             }
-                            const orderID = await addOrder(curusrid, finPrice, checkoutID) //orderid here
                             if (orderID) {
-                                const res = await addOrderItem(orderID, newSID, k, addonb, fp * q, q)
+                                let newNum = Number(fp) * Number(q)
+                                const res = await addOrderItem(orderID, newSID, k, addonb, newNum.toFixed(2), q)
                             }
 
                         }
-                        store.clearCart();
-                        //window.location = res[0]
+                        window.location = res[0]
                     }
                 }
             }
@@ -129,6 +128,7 @@ function Order() {
                 message: 'Please wait for your order and collect it',
                 color: 'green'
             });
+            store.clearCart();
         } else {
             if (res == "fail") {
                 notifications.show({
@@ -201,7 +201,7 @@ function Order() {
                             <Space h={15} />
                             <Title order={3}>Your Meal Cart</Title>
                             <Space h={30} />
-                            <Table.ScrollContainer minWidth={800} maxHeight={300}>
+                            <Table.ScrollContainer minWidth={800} maxHeight={500}>
                                 <Table withRowBorders={true} highlightOnHover style={{ width: '100%' }}>
                                     <Table.Thead>
                                         <Table.Tr>
@@ -229,7 +229,7 @@ function Order() {
                                                                 
                                                                 displayQuan += ele.totalAmt
                                                                 return (
-                                                                    <Table.Tr onClick={ModalOpen}>
+                                                                    <Table.Tr>
                                                                         <Table.Td>
                                                                             {(ele.image !== "") ?
                                                                                 <Image src={ele.image} w={100} h={100} radius={10} /> :
@@ -371,9 +371,6 @@ function Order() {
     )
 }
 
-function ModalOpen() {
-    console.log('hello world')
-}
 
 //component only got 1 prop, multiple var
 function Delete({
