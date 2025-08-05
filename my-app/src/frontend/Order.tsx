@@ -185,6 +185,7 @@ function Order() {
 
 
 
+
     return (
         <div style={{ background: 'linear-gradient(to right, #FFF0D9, #D4EDDA, #A5D6A7)' }}>
 
@@ -216,7 +217,7 @@ function Order() {
                                     </Table.Thead>
                                     <Table.Tbody>
                                         {
-                                            cart.length > 0 ? (
+                                            Object.keys(cart).length > 0 ? (
                                                 Object.entries(cart).map(([mainKey, v]) => {
                                                     addonFromDB = addonTemp[mainKey]//calling the food alr
                                                     return (
