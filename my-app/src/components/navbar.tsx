@@ -130,7 +130,7 @@ export function HeaderMegaMenu() {
           <Image src='https://emmwtceslmtkkjpujrtk.supabase.co/storage/v1/object/public/logo//Screenshot%202025-07-31%20at%2014.03.00.png' h={50} w={200} ml={-17} />
           <Group h="100%" gap={0} visibleFrom="cus" className='alignGroup' justify='flex-end' style={{ flexGrow: 1 }}>
             <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} component={NavLink} to='/'>
-              <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Home</Text>
+              <Text fw={700} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Home</Text>
             </Button>
 
 
@@ -140,13 +140,13 @@ export function HeaderMegaMenu() {
                 session !== null &&
                 <Menu.Target>
                   <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
-                    <Text fw={500} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Orders</Text>
+                    <Text fw={700} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Orders</Text>
 
                   </Button>
                 </Menu.Target>
               }
-              <Menu.Dropdown>
-                <Menu.Label>Order Selections</Menu.Label>
+              <Menu.Dropdown bg='#FFFAF0'>
+                <Menu.Label color='black'>Order Selections</Menu.Label>
                 <Menu.Item leftSection={<IconShoppingCart size={20} />} component={NavLink} to='/Orders'>
                   Current Cart
                 </Menu.Item>
@@ -172,8 +172,14 @@ export function HeaderMegaMenu() {
         title="SMUEats"
         hiddenFrom="cus"
         zIndex={1000000}
+        styles={{
+        content: {
+          backgroundColor: '#FFFAF0', // Apply desired background color
+        },
+      }}
+        
       >
-        <ScrollArea h="calc(100vh - 80px" mx="-md">
+        <ScrollArea h="calc(100vh - 80px" mx="-md" bg = '#FFFAF0'>
           <Divider my="sm" />
           <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
             <NavLink to="/" style={{ textDecoration: 'none' }}>

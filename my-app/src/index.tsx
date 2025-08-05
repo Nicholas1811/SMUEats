@@ -16,6 +16,7 @@ import '@mantine/notifications/styles.css';
 import { Notifications } from '@mantine/notifications';
 import Order from './frontend/Order';
 import { PreviousOrder } from './frontend/PreviousOrder';
+import './index.css';
 
 //since this is your app's starting point, you will be able to use the variables here for the whole application.
 const router = createBrowserRouter([

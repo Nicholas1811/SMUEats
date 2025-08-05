@@ -86,3 +86,15 @@ export async function getAddon(id: any, foodName: any) {
     return []
   }
 }
+
+export async function getFoodImage(id: any, foodName:any){
+  const {data, error} = await supabaseClient.from('food').select('image')
+  .eq('storeID', id)
+  .eq('foodName', foodName)
+
+  if(data){
+    return data
+  }else{
+    return []
+  }
+}

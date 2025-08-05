@@ -69,12 +69,11 @@ function Order() {
                 if (curusrid && checkoutID && finPrice) {
                     const orderID = await addOrder(curusrid, finPrice, checkoutID) //orderid here
                     console.log(orderID)
-
-                    let addonb = {}
                     let fp = 0
                     let q = 0
                     if (orderID) {
                         for (const k in cart) {
+                            let addonb = {}
                             if (cart[k].length > 0) {
                                 let currentItem = []
                                 currentItem = cart[k]
@@ -187,7 +186,7 @@ function Order() {
 
 
     return (
-        <div>
+        <div style={{ backgroundColor: '#FFFAF0' }}>
 
             <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }}
                 loaderProps={{ color: '#00B14F', type: 'bars' }}
@@ -197,7 +196,7 @@ function Order() {
             <Container size='xl'>
                 <Grid>
                     <Grid.Col span={{ xl: 9, lg: 9, md: 9, sm: 12, xs: 12 }} pt={30}>
-                        <Card shadow="md" padding="lg" radius="md" withBorder>
+                        <Card shadow="md" padding="lg" radius="md" withBorder bg='#FFFAF0' h={600}>
                             <Space h={15} />
                             <Title order={3}>Your Meal Cart</Title>
                             <Space h={30} />
@@ -217,100 +216,109 @@ function Order() {
                                     </Table.Thead>
                                     <Table.Tbody>
                                         {
+                                            cart.length > 0 ? (
+                                                Object.entries(cart).map(([mainKey, v]) => {
+                                                    addonFromDB = addonTemp[mainKey]//calling the food alr
+                                                    return (
+                                                        <>
+                                                            {Array.isArray(v) &&
+                                                                v.map((ele) => {
 
-                                            Object.entries(cart).map(([mainKey, v]) => {
-                                                addonFromDB = addonTemp[mainKey]//calling the food alr
-                                                console.log(addonFromDB)
-                                                console.log(mainKey, v)
-                                                return (
-                                                    <>
-                                                        {Array.isArray(v) &&
-                                                            v.map((ele) => {
-                                                                
-                                                                displayQuan += ele.totalAmt
-                                                                return (
-                                                                    <Table.Tr>
-                                                                        <Table.Td>
-                                                                            {(ele.image !== "") ?
-                                                                                <Image src={ele.image} w={100} h={100} radius={10} /> :
-                                                                                <></>}
+                                                                    displayQuan += ele.totalAmt
+                                                                    return (
+                                                                        <Table.Tr>
+                                                                            <Table.Td>
+                                                                                {(ele.image !== "") ?
+                                                                                    <Image src={ele.image} w={100} h={100} radius={10} /> :
+                                                                                    <></>}
 
 
-                                                                        </Table.Td>
-                                                                        <Table.Td>
-                                                                            <Text fw={700}>{mainKey}</Text>
+                                                                            </Table.Td>
+                                                                            <Table.Td>
+                                                                                <Text fw={700}>{mainKey}</Text>
 
-                                                                        </Table.Td>
-                                                                        <Table.Td>
-                                                                            {
-                                                                                Object.entries(ele).map(([key, value]) => {
-                                                                                    let curitemprice = 0;
-                                                                                    let totalCurrentPrice = 0;
+                                                                            </Table.Td>
+                                                                            <Table.Td>
+                                                                                {
+                                                                                    Object.entries(ele).map(([key, value]) => {
+                                                                                        let curitemprice = 0;
+                                                                                        let totalCurrentPrice = 0;
 
-                                                                                    if (key !== "finPrice" && key !== 'shopID' && key !== 'image' && key !== 'totalAmt' && key !== 'price') {
+                                                                                        if (key !== "finPrice" && key !== 'shopID' && key !== 'image' && key !== 'totalAmt' && key !== 'price') {
 
-                                                                                        if (addonFromDB !== undefined) {
-                                                                                            addonFromDB.map((addonDet: any) => {
-                                                                                                if (!Array.isArray(value)) {
-                                                                                                    if (addonDet[key] !== undefined) {
-                                                                                                        console.log(addonDet[key][value], key)
-                                                                                                        curitemprice = addonDet[key][value]
+                                                                                            if (addonFromDB !== undefined) {
+                                                                                                addonFromDB.map((addonDet: any) => {
+                                                                                                    if (!Array.isArray(value)) {
+                                                                                                        if (addonDet[key] !== undefined) {
+                                                                                                            console.log(addonDet[key][value], key)
+                                                                                                            curitemprice = addonDet[key][value]
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        if (addonDet[key] !== undefined) {
+                                                                                                            value.forEach((i) => {
+                                                                                                                console.log(addonDet[key], value, 'line 262')
+                                                                                                                if (addonDet[key][i] !== undefined) {
+                                                                                                                    totalCurrentPrice += addonDet[key][i]
+                                                                                                                }
+                                                                                                            })
+                                                                                                        }
                                                                                                     }
-                                                                                                } else {
-                                                                                                    if (addonDet[key] !== undefined) {
-                                                                                                        value.forEach((i) => {
-                                                                                                            console.log(addonDet[key], value, 'line 262')
-                                                                                                            if (addonDet[key][i] !== undefined) {
-                                                                                                                totalCurrentPrice += addonDet[key][i]
-                                                                                                            }
-                                                                                                        })
+                                                                                                })
+                                                                                            }
+
+                                                                                            return (
+                                                                                                <>
+                                                                                                    <Text size="xs" fw={700}>{key}</Text>
+                                                                                                    {
+
+
+                                                                                                        (Array.isArray(value)) ?
+                                                                                                            (
+                                                                                                                <Text size='xs'>{value.toString()}, +S${totalCurrentPrice.toFixed(2)}</Text>
+                                                                                                            )
+                                                                                                            :
+                                                                                                            (
+                                                                                                                <Text size='xs'>{value}, +S${curitemprice}</Text>
+                                                                                                            )
+
                                                                                                     }
-                                                                                                }
-                                                                                            })
+
+
+                                                                                                </>
+
+                                                                                            );
+
                                                                                         }
 
-                                                                                        return (
-                                                                                            <>
-                                                                                                <Text size="xs" fw={700}>{key}</Text>
-                                                                                                {
+                                                                                    })}
+                                                                            </Table.Td>
+                                                                            <Table.Td>S${ele.price}</Table.Td>
+                                                                            <Table.Td>S${ele.finPrice}</Table.Td>
+                                                                            <Table.Td>{ele.totalAmt}</Table.Td>
+                                                                            <Table.Td>S${(ele.finPrice * ele.totalAmt).toFixed(2)}</Table.Td>
+                                                                            <Table.Td>
 
+                                                                                <IconPencil />
+                                                                                <IconTrash color="red" onClick={() => { customOpen(mainKey, v) }} />
+                                                                            </Table.Td>
+                                                                        </Table.Tr>
+                                                                    );
+                                                                })}
+                                                        </>
+                                                    );
 
-                                                                                                    (Array.isArray(value)) ?
-                                                                                                        (
-                                                                                                            <Text size='xs'>{value.toString()}, +S${totalCurrentPrice.toFixed(2)}</Text>
-                                                                                                        )
-                                                                                                        :
-                                                                                                        (
-                                                                                                            <Text size='xs'>{value}, +S${curitemprice}</Text>
-                                                                                                        )
-
-                                                                                                }
-
-
-                                                                                            </>
-
-                                                                                        );
-
-                                                                                    }
-
-                                                                                })}
-                                                                        </Table.Td>
-                                                                        <Table.Td>S${ele.price}</Table.Td>
-                                                                        <Table.Td>S${ele.finPrice}</Table.Td>
-                                                                        <Table.Td>{ele.totalAmt}</Table.Td>
-                                                                        <Table.Td>S${(ele.finPrice * ele.totalAmt).toFixed(2)}</Table.Td>
-                                                                        <Table.Td>
-
-                                                                            <IconPencil />
-                                                                            <IconTrash color="red" onClick={() => { customOpen(mainKey, v) }} />
-                                                                        </Table.Td>
-                                                                    </Table.Tr>
-                                                                );
-                                                            })}
-                                                    </>
-                                                );
-
-                                            })}
+                                                })
+                                            ) : (
+                                                <>
+                                                <Space h={150}/>
+                                                <Table.Tr>
+                                                    <Table.Td colspan={8} style={{ textAlign: 'center' }}>
+                                                        <Text fw = {700}>No items in cart. Please add to begin.</Text>
+                                                    </Table.Td>
+                                                </Table.Tr>
+                                                </>
+                                            )
+                                        }
                                     </Table.Tbody>
                                 </Table>
                             </Table.ScrollContainer>
@@ -323,7 +331,7 @@ function Order() {
 
 
 
-                        <Card withBorder radius='md' padding='lg' shadow="xl">
+                        <Card withBorder radius='md' padding='lg' shadow="xl" bg='#FFFAF0'>
                             <Space h={15} />
                             <Title order={3}>Total Costs</Title>
                             <Space h={30} />

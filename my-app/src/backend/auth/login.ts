@@ -6,14 +6,14 @@ export async function signin(email: any, password: any) {
         password: password
     });
     console.log(data, error)
-    if(error){
+    if (error) {
         return []
     }
-    if(data){
+    if (data) {
         return data
     }
-    
-    
+
+
 }
 
 export async function logout() {
@@ -45,9 +45,37 @@ export async function signup(smuid: any, username: any, password: any, email: an
     if (typeof resSignup == 'object') {
         return { data: null, error: "Unable to sign up due to duplicate in account" };
     } else {
-        const { data, error } = await supabaseClient.from('users').insert({ user_id: resSignup, username: username, smuid:smuid , pwd_length: password.length}).select()
+        const { data, error } = await supabaseClient.from('users').insert({ user_id: resSignup, username: username, smuid: smuid, pwd_length: password.length }).select()
         return { data, error }
     }
 }
 
 
+export async function updateUsername(userID: any, usrname: any) {
+    const { data, error } = await supabaseClient
+        .from('users')
+        .update({ username: usrname })
+        .eq('user_id', userID)
+        .select()
+    if (data) {
+        return true
+    }
+    if (error) {
+        console.error(error)
+        return false
+    }
+}
+
+export async function updateUserPwd(userID: any, pwd: any) {
+    const { data, error } = await supabaseClient.auth.updateUser({
+        password: pwd
+    })
+
+    if(data){
+        return true
+    }
+    if (error){
+        console.error(error)
+        return false
+    }
+}

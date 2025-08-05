@@ -39,7 +39,7 @@ function Homepage() {
 
   return (
 
-    <div className={styles.App}>
+    <div className={styles.App} style={{backgroundColor:'#FFFAF0'}}>
       <title>Home</title>
       <HeaderMegaMenu />
       <div className={styles.holder}>
@@ -117,7 +117,7 @@ function Homepage() {
                     
                     <Grid.Col span={{ xl: 4, lg: 4, md: 4, sm: 6, xs: 12 }}>
                       <Skeleton visible={storeState}>
-                      <Card shadow="xl" padding="lg" radius="md" withBorder key={store.id}>
+                      <Card shadow="xl" padding="lg" radius="md" withBorder key={store.id} bg='#FFFAF0'>
                         <Card.Section>
                           <Image
                             src={store.image}

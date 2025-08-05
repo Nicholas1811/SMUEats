@@ -165,7 +165,7 @@ function Store() {
         }
     }
     return (
-        <div>
+        <div style={{backgroundColor: '#FFFAF0'}}>
             <HeaderMegaMenu />
             <Container style={{ paddingTop: '1em' }}>
                 <Grid style={{ 'width': '100%' }}>
@@ -219,7 +219,7 @@ function Store() {
 
                                 <Grid.Col span={{ xl: 6, lg: 6, md: 6, sm: 6, xs: 12 }}>
 
-                                    <Card shadow="sm" padding="lg" radius="md" withBorder>
+                                    <Card shadow="sm" padding="lg" radius="md" withBorder bg="#FFFAF0">
                                         <Card.Section>
 
                                             {f.image != "" &&

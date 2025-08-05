@@ -40,7 +40,7 @@ function Login() {
                 }
                 return null
             },
-            password: (value) => value.length >= 8 ? null : 'Password must be at least 8 characters.'
+            password: (value) => value.length >= 7 ? null : 'Password must be at least 8 characters.'
         },
     });
     const navigate = useNavigate();
@@ -77,7 +77,7 @@ function Login() {
                             },
                         }
                     }
-                     style={{ flex: 1 }}
+                     style={{ flex:'2' }}
                 >
                     <Container size='md' pt='3rem' h="3rem">
                         <Grid gutter={0}>
