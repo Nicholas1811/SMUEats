@@ -92,7 +92,7 @@ function ProfileCheck() {
       </NavLink>
 
       <NavLink to='/signup'>
-        <Button color='#00B14F' 
+        <Button color='#00B14F'
           variant="light"
           radius="xl"
           size="sm"
@@ -199,7 +199,13 @@ export function HeaderMegaMenu() {
             </Button>
 
 
-            <Menu shadow="md" width={175} offset={0}>
+            <Menu shadow="md" width={175} offset={0}
+              styles={{
+                dropdown: {
+                  border: 'none', // Removes the border
+                },
+              }}
+            >
 
               {
                 session !== null &&
@@ -222,15 +228,15 @@ export function HeaderMegaMenu() {
                       transition: 'all 0.2s ease',
                       fontFamily: 'system-ui'
                     }}
-                    leftSection={<IconMenuOrder />}
+                    leftSection={<IconShoppingCart size={20}/>}
                   >
                     Orders
 
                   </Button>
                 </Menu.Target>
               }
-              <Menu.Dropdown bg='#FFFAF0'>
-                <Menu.Label color='black'>Order Selections</Menu.Label>
+              <Menu.Dropdown bg='#A5D6A7'>
+                <Menu.Label styles={{ label: { color: 'black' } }}>Order Selections</Menu.Label>
                 <Menu.Item leftSection={<IconShoppingCart size={20} />} component={NavLink} to='/Orders'>
                   Current Cart
                 </Menu.Item>

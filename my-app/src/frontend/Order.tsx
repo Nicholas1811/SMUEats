@@ -197,7 +197,7 @@ function Order() {
             <Container size='xl'>
                 <Grid>
                     <Grid.Col span={{ xl: 9, lg: 9, md: 9, sm: 12, xs: 12 }} pt={30}>
-                        <Card shadow="md" padding="lg" radius="md" withBorder bg='#F1F8F4' h={600}>
+                        <Card shadow="md" padding="lg" radius="md" withBorder bg='#F1F8F4' h={650}>
                             <Space h={15} />
                             <Title order={3}>Your Meal Cart</Title>
                             <Space h={30} />
