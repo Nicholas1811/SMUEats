@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { FooterSimple } from "../components/footer";
 import { useForm } from "@mantine/form";
 import { updateUserPwd, updateUsername } from "../backend/auth/login";
+import e from "cors";
+import { notifications } from "@mantine/notifications";
 export default function Profile() {
 
     const { session, loading } = useLogin();
@@ -44,7 +46,7 @@ export default function Profile() {
             setCurEmail(userTable.username)
             setCurPwd(pwdItem)
             console.log(curEmail, curPwd)
-            let userObj = { username: userTable.username, password: pwdItem }
+            let userObj = { username: userTable.username, password: '' }
             form.setValues(userObj);
         }
     }, [userTable])
@@ -52,18 +54,40 @@ export default function Profile() {
     const form = useForm({
         initialValues: {
             username: curEmail,
-            password: curPwd,
+            password: '',
         },
     })
     //prodDev1
     //prodDev123
     const handleSubmit = (async (values: any) => {
-        const resOne = await updateUserPwd(uid, values.password)
-        const resTwo = await updateUsername(uid, values.username)
-        console.log(resOne, resTwo)
-        if (resOne && resTwo) {
-            console.log('all ok')
+        if (values.password != "") {
+            let resTwo: boolean = false
+            resTwo = await updateUsername(uid, values.username)
+            let resOne: boolean = false
+            resOne = await updateUserPwd(uid, values.password)
+            console.log(resOne, resTwo, values)
+            if (resOne && resTwo) {
+                notifications.show({
+                    title: 'Update Successful',
+                    message: 'You have successfully updated your information.'
+                })
+                console.log('allOK, both updated')
+            }
+        } else {
+            let resTwo: boolean = false
+            resTwo = await updateUsername(uid, values.username)
+            if (resTwo) {
+                notifications.show({
+                    title: 'Update Successful',
+                    message: 'You have successfully updated your information.'
+                })
+                console.log('allOk, one updated')
+
+            }
         }
+
+
+
     })
 
     if (session == null) {
@@ -78,16 +102,17 @@ export default function Profile() {
 
 
     if (!loading && session !== null) {
-
+        //prodAcc123
         const email = session.user.email
         return (
             <div style={{
                 minHeight: '100vh',
                 display: 'flex',
                 flexDirection: 'column',
-                backgroundColor:'#FFFAF0'
+                background: 'linear-gradient(to right, #FFF0D9, #D4EDDA, #A5D6A7)'
             }}
             >
+
                 <AnimatePresence>
                     <HeaderMegaMenu />
                     <motion.div className="Login"
@@ -121,7 +146,7 @@ export default function Profile() {
                                         width: '100%',
                                         height: '100%'
                                     }}
-                                    bg = '#FFFAF0'>
+                                        bg='#F1F8F4'>
                                         <Space h='3rem' />
                                         <Card.Section>
 
@@ -147,6 +172,7 @@ export default function Profile() {
                                                             label="Password"
                                                             description="You can update your password here."
                                                             key={form.key('password')}
+                                                            placeholder="********"
                                                             {...form.getInputProps('password')}
                                                         />
                                                         <TextInput
@@ -164,8 +190,32 @@ export default function Profile() {
                                                         />
                                                         <Space h={15} />
                                                         <Stack align="center" w="100%" gap={5} justify="center" style={{ justifyContent: 'space-between' }}>
-                                                            <Button w='50%' color="#00B14F" type='submit'>Update Details</Button>
-                                                            <Button onClick={handleLogout} w='50%' color='red'>Logout Account</Button>
+                                                            <Button w='50%' color="#00B14F" type='submit'
+                                                                fullWidth
+                                                                radius="xl"
+                                                                size="md"
+                                                                variant="light"
+                                                                style={{
+                                                                    fontWeight: 600,
+                                                                    border: '1px solid #00B14F',
+                                                                    backgroundColor: '#E6F4EA',
+                                                                    color: '#00B14F',
+                                                                    transition: 'all 0.2s ease',
+                                                                }}
+                                                            >Update Details</Button>
+                                                            <Button onClick={handleLogout} w='50%' color='red'
+                                                                fullWidth
+                                                                radius="xl"
+                                                                size="md"
+                                                                c="red"
+                                                                variant="light"
+                                                                style={{
+                                                                    fontWeight: 600,
+                                                                    border: '1px solid #FF6B6B',
+                                                                    backgroundColor: '#FFF5F5',
+                                                                    color: '#D32F2F',
+                                                                    transition: 'all 0.2s ease',
+                                                                }}>Logout Account</Button>
                                                         </Stack>
 
 

@@ -28,18 +28,18 @@ function Homepage() {
   const stores = useStore();
   const [showSecond, setShowSecond] = useState(false);
   let randomImage = randomPicker();
-  const [storeState,setStoreState] = useState(true);
-  useEffect(()=>{
-      if(stores.length > 0){
-    setStoreState(false)
-  }
-  },[stores])
+  const [storeState, setStoreState] = useState(true);
+  useEffect(() => {
+    if (stores.length > 0) {
+      setStoreState(false)
+    }
+  }, [stores])
 
 
 
   return (
 
-    <div className={styles.App} style={{backgroundColor:'#FFFAF0'}}>
+    <div className={styles.App} style={{ background: 'linear-gradient(to right, #FFF0D9, #D4EDDA, #A5D6A7)' }}>
       <title>Home</title>
       <HeaderMegaMenu />
       <div className={styles.holder}>
@@ -47,7 +47,7 @@ function Homepage() {
         <>
           <Container
             className={styles.imageView}
-            size="100%"
+            size="95%"
             style={{ position: 'relative', width: '100%', height: '400px', padding: 0 }}
           >
             <motion.img
@@ -61,6 +61,7 @@ function Homepage() {
                 objectFit: 'cover',
                 zIndex: 0,
               }}
+              
             />
 
             <div
@@ -109,15 +110,15 @@ function Homepage() {
       <div className={styles.containerHolder}>
         <Container size='lg' px='md' >
           <Grid px="md">
-            
-              {stores &&
-                (stores.map((store) => {
-                  let name = store.storeName;
-                  return (
-                    
-                    <Grid.Col span={{ xl: 4, lg: 4, md: 4, sm: 6, xs: 12 }}>
-                      <Skeleton visible={storeState}>
-                      <Card shadow="xl" padding="lg" radius="md" withBorder key={store.id} bg='#FFFAF0'>
+
+            {stores &&
+              (stores.map((store) => {
+                let name = store.storeName;
+                return (
+
+                  <Grid.Col span={{ xl: 4, lg: 4, md: 4, sm: 6, xs: 12 }}>
+                    <Skeleton visible={storeState}>
+                      <Card shadow="xl" padding="lg" radius="md" withBorder key={store.id} bg='#F1F8F4'>
                         <Card.Section>
                           <Image
                             src={store.image}
@@ -143,7 +144,23 @@ function Homepage() {
                         </Stack>
                         {session != null && (
                           <Link to={{ pathname: `/store/${name}` }} state={store} style={{ textDecoration: 'None' }}>
-                            <Button color='#00B14F' fullWidth mt="md" radius="md">
+                            <Button fullWidth mt="md" 
+                              color='#00B14F'
+                              variant="light"
+                              radius="xl"
+                              size="sm"
+                              c="green"
+                              h={35}
+                              style={{
+                                fontWeight: 600,
+                                padding: '6px 16px',
+                                backgroundColor: '#E6F4EA', // soft mint green
+                                color: '#2E7D32',           // darker green text
+                                border: '1px solid #C8E6C9',
+                                transition: 'all 0.2s ease',
+                                fontFamily: 'Helvetica'
+                              }}
+                            >
                               Order now
                             </Button>
                           </Link>
@@ -159,15 +176,15 @@ function Homepage() {
 
 
                       </Card>
-                        </Skeleton>
-                    </Grid.Col>
-                    
+                    </Skeleton>
+                  </Grid.Col>
 
 
-                  )
 
-                }))
-              }
+                )
+
+              }))
+            }
           </Grid>
         </Container>
 

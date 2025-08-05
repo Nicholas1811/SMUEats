@@ -143,11 +143,11 @@ function Store() {
         currentOrder[foodDet[0].foodName].shopID = foodDet[0].storeID
         currentOrder[foodDet[0].foodName].image = foodDet[0].image
         console.log(currentOrder)
-        
-        if(store){
-             store.addToCart(foodDet[0].foodName, currentOrder[foodDet[0].foodName], currentAmt);
+
+        if (store) {
+            store.addToCart(foodDet[0].foodName, currentOrder[foodDet[0].foodName], currentAmt);
         }
-       
+
         close();
         notifications.show({
             title: `Item added!`,
@@ -165,7 +165,7 @@ function Store() {
         }
     }
     return (
-        <div style={{backgroundColor: '#FFFAF0'}}>
+        <div style={{ background: 'linear-gradient(to right, #FFF0D9, #D4EDDA, #A5D6A7)' }}>
             <HeaderMegaMenu />
             <Container style={{ paddingTop: '1em' }}>
                 <Grid style={{ 'width': '100%' }}>
@@ -219,11 +219,15 @@ function Store() {
 
                                 <Grid.Col span={{ xl: 6, lg: 6, md: 6, sm: 6, xs: 12 }}>
 
-                                    <Card shadow="sm" padding="lg" radius="md" withBorder bg="#FFFAF0">
+                                    <Card shadow="sm" padding="lg" radius="md" withBorder bg="#F1F8F4">
                                         <Card.Section>
 
-                                            {f.image != "" &&
-                                                <Image src={f.image} height={200} alt="Norway" />
+                                            {
+                                            f.image != "" ? (
+                                                <Image src={f.image} height={200} />
+                                            ):(
+                                                <></>
+                                            )
                                             }
                                         </Card.Section>
 
@@ -231,10 +235,11 @@ function Store() {
                                             <Text fw={500}>{f.foodName}</Text>
                                             <Group>
                                                 <Badge color="#CC7722" size="lg">${p}</Badge>
-                                                <Button variant="transparent" radius="xl" onClick={() => OpenModal(f.foodName)} style={{
+                                                <Button variant="light" radius="xl" onClick={() => OpenModal(f.foodName)} style={{
                                                     marginLeft: 'auto',
-                                                    border: '1px solid grey'
-                                                }} size="xs">
+                                                    border: '1px solid #C0C0C0;',
+                                                }} size="xs"
+                                                    color="#BEBEBE">
                                                     <IconPlus size={18} color="black" />
                                                 </Button>
                                             </Group>
@@ -250,7 +255,14 @@ function Store() {
                             {
                                 (foodDet !== null && addon) &&
                                 <>
-                                    <Image src={foodDet[0].image} h={200} />
+                                {
+                                    foodDet[0].image != "" ? (
+                                        <Image src={foodDet[0].image} h={200} />
+                                    ) : (
+                                        <></>
+                                    )
+                                }
+                                    
                                     <Space h="1em" />
                                     <Text fw={600}>{foodDet[0].foodName}</Text>
                                     <Space h="1em" />
@@ -348,21 +360,38 @@ function Store() {
 
                                         <Space h='0.5em' />
                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <ActionIcon variant="filled" color="#D3D3D3" radius="xl" size="md" onClick={decreaseAmt}>
-                                                <IconMinus stroke={2} />
+                                            <ActionIcon variant="light" color="#BEBEBE;" radius="xl" size="md" onClick={decreaseAmt}>
+                                                <IconMinus stroke={2} color="#c2c2c2"/>
                                             </ActionIcon>
                                             <Space w="md" />
                                             <Text c='black' fw={700}>{currentAmt}</Text>
                                             <Space w="md" />
-                                            <ActionIcon variant="filled" color="#D3D3D3" radius="xl" size="md" onClick={increaseAmt}>
-                                                <IconPlus size={20} />
+                                            <ActionIcon variant="light" color="#BEBEBE;" radius="xl" size="md" onClick={increaseAmt}>
+                                                <IconPlus size={20} color="#c2c2c2" />
                                             </ActionIcon>
 
                                         </div>
 
                                         <Space h='0.5em' />
-                                        <Button color="green" style={{ fontFamily: 'Helvetica', width: '100%' }}
+                                        <Button 
                                             type="submit"
+
+                                            color='#00B14F'
+                                            variant="light"
+                                            radius="xl"
+                                            size="sm"
+                                            c="green"
+                                            h={35}
+                                            style={{
+                                                fontWeight: 600,
+                                                padding: '6px 16px',
+                                                backgroundColor: '#E6F4EA', // soft mint green
+                                                color: '#2E7D32',           // darker green text
+                                                border: '1px solid #C8E6C9',
+                                                transition: 'all 0.2s ease',
+                                                fontFamily: 'Helvetica',
+                                                width: '100%'
+                                            }}
                                         >Submit to order cart</Button>
 
                                     </form>

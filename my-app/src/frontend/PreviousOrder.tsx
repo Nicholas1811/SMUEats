@@ -44,13 +44,13 @@ export function PreviousOrder() {
 
 
     return (
-        <div style={{ backgroundColor: '#FFFAF0' }}>
+        <div style={{ background: 'linear-gradient(to right, #FFF0D9, #D4EDDA, #A5D6A7)'}}>
             <HeaderMegaMenu />
 
             <Container>
                 <Grid>
                     <Grid.Col span={{ xl: 12, lg: 12, md: 12, sm: 12, xs: 12 }} pt={30}>
-                        <Card shadow="md" padding="lg" radius="md" withBorder bg='#FFFAF0' h={600}>
+                        <Card shadow="md" padding="lg" radius="md" withBorder bg='#F1F8F4' h={600}>
                             <Space h={15} />
                             <Title order={3}>Your Previous Orders</Title>
                             <Space h={30} />

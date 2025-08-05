@@ -48,12 +48,13 @@ function Login() {
 
 
     return (
-         <div
-             style={{
-                 display: 'flex',
-                 flexDirection: 'column',
-                 minHeight: '100vh',
-             }}>
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '100vh',
+                background: 'linear-gradient(to right, #FFF0D9, #D4EDDA, #A5D6A7)'
+            }}>
             <AnimatePresence>
                 <HeaderMegaMenu />
                 <motion.div className="Login"
@@ -77,7 +78,7 @@ function Login() {
                             },
                         }
                     }
-                     style={{ flex:'2' }}
+                    style={{ flex: '2' }}
                 >
                     <Container size='md' pt='3rem' h="3rem">
                         <Grid gutter={0}>
@@ -128,12 +129,22 @@ function Login() {
                                                 {...form.getInputProps('password')}
                                             />
                                             <Anchor href="#" underline="hover" size='0.75em'
-                                                variant="gradient"
-                                                gradient={{ from: 'teal', to: 'blue', deg: 60 }}
-                                                style={{ lineHeight: 1.5, paddingTop: 1 }}
+                                                c='green'
                                             >Forgot Password? Click on me</Anchor>
-                                            <Button variant="gradient" fullWidth mt="md" radius="md" gradient={{ from: ' #11998e', to: '#38ef7d', deg: 90 }}
-                                                type='submit'>
+                                            <Button 
+                                                type='submit'
+                                                fullWidth
+                                                radius="xl"
+                                                size="md"
+                                                variant="light"
+                                                style={{
+                                                    fontWeight: 600,
+                                                    border: '1px solid #00B14F',
+                                                    backgroundColor: '#E6F4EA',
+                                                    color: '#00B14F',
+                                                    transition: 'all 0.2s ease',
+                                                }}
+                                            >
                                                 Login
                                             </Button>
                                         </form>
@@ -149,11 +160,11 @@ function Login() {
                             </Grid.Col>
                         </Grid>
                     </Container>
-                   
+
                 </motion.div>
-                
+
             </AnimatePresence>
-             <FooterSimple />
+            <FooterSimple />
         </div>
 
 

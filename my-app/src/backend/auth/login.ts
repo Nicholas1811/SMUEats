@@ -52,16 +52,15 @@ export async function signup(smuid: any, username: any, password: any, email: an
 
 
 export async function updateUsername(userID: any, usrname: any) {
-    const { data, error } = await supabaseClient
+    const { data } = await supabaseClient
         .from('users')
         .update({ username: usrname })
         .eq('user_id', userID)
-        .select()
-    if (data) {
+    if (data == null) {
+        console.log(data)
         return true
-    }
-    if (error) {
-        console.error(error)
+    }else{
+        console.error(data)
         return false
     }
 }

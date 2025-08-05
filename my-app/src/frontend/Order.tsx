@@ -186,7 +186,7 @@ function Order() {
 
 
     return (
-        <div style={{ backgroundColor: '#FFFAF0' }}>
+        <div style={{ background: 'linear-gradient(to right, #FFF0D9, #D4EDDA, #A5D6A7)' }}>
 
             <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }}
                 loaderProps={{ color: '#00B14F', type: 'bars' }}
@@ -196,7 +196,7 @@ function Order() {
             <Container size='xl'>
                 <Grid>
                     <Grid.Col span={{ xl: 9, lg: 9, md: 9, sm: 12, xs: 12 }} pt={30}>
-                        <Card shadow="md" padding="lg" radius="md" withBorder bg='#FFFAF0' h={600}>
+                        <Card shadow="md" padding="lg" radius="md" withBorder bg='#F1F8F4' h={600}>
                             <Space h={15} />
                             <Title order={3}>Your Meal Cart</Title>
                             <Space h={30} />
@@ -310,12 +310,12 @@ function Order() {
                                                 })
                                             ) : (
                                                 <>
-                                                <Space h={150}/>
-                                                <Table.Tr>
-                                                    <Table.Td colspan={8} style={{ textAlign: 'center' }}>
-                                                        <Text fw = {700}>No items in cart. Please add to begin.</Text>
-                                                    </Table.Td>
-                                                </Table.Tr>
+                                                    <Space h={150} />
+                                                    <Table.Tr>
+                                                        <Table.Td colspan={8} style={{ textAlign: 'center' }}>
+                                                            <Text fw={700}>No items in cart. Please add to begin.</Text>
+                                                        </Table.Td>
+                                                    </Table.Tr>
                                                 </>
                                             )
                                         }
@@ -331,7 +331,7 @@ function Order() {
 
 
 
-                        <Card withBorder radius='md' padding='lg' shadow="xl" bg='#FFFAF0'>
+                        <Card withBorder radius='md' padding='lg' shadow="xl" bg='#F1F8F4'>
                             <Space h={15} />
                             <Title order={3}>Total Costs</Title>
                             <Space h={30} />
@@ -363,8 +363,33 @@ function Order() {
                                 </Table>
                             </Table.ScrollContainer>
                             <Group justify="space-between" grow gap='xs'>
-                                <Button color="#00B14F" onClick={checkout}>Checkout</Button>
-                                <Button onClick={empty} color="#ff3333">Clear Cart</Button>
+                                <Button color="#00B14F" onClick={checkout}
+                                    fullWidth
+                                    radius="xl"
+                                    size="md"
+                                    variant="light"
+                                    style={{
+                                        fontWeight: 600,
+                                        border: '1px solid #00B14F',
+                                        backgroundColor: '#E6F4EA',
+                                        color: '#00B14F',
+                                        transition: 'all 0.2s ease',
+                                    }}
+                                >Checkout</Button>
+                                <Button onClick={empty} color="#ff3333"
+                                    fullWidth
+                                    radius="xl"
+                                    size="md"
+                                    c="red"
+                                    variant="light"
+                                    style={{
+                                        fontWeight: 600,
+                                        border: '1px solid #FF6B6B',
+                                        backgroundColor: '#FFF5F5',
+                                        color: '#D32F2F',
+                                        transition: 'all 0.2s ease',
+                                    }}
+                                >Clear Cart</Button>
                             </Group>
 
                         </Card>

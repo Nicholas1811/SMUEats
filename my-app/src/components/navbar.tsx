@@ -14,6 +14,7 @@ import {
   Collapse,
   Space
 } from '@mantine/core';
+import { IconHome, IconMenuOrder, IconUser } from '@tabler/icons-react'; // or use any icon library you prefer
 import { useDisclosure } from '@mantine/hooks';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './DoubleHeader.module.css';
@@ -46,7 +47,22 @@ function ProfileCheck() {
     return (
       <Group visibleFrom="cus">
         <NavLink to='/profile'>
-          <Button color='#00B14F' radius="md" size='s' style={{ fontFamily: 'Helvetica' }}>Profile</Button>
+          <Button color='#00B14F'
+            variant="light"
+            radius="xl"
+            size="sm"
+            c="green"
+            style={{
+              fontWeight: 600,
+              padding: '6px 16px',
+              backgroundColor: '#E6F4EA', // soft mint green
+              color: '#2E7D32',           // darker green text
+              border: '1px solid #C8E6C9',
+              transition: 'all 0.2s ease',
+              fontFamily: 'Helvetica'
+            }}
+            leftSection={<IconUser size={20} />}
+          >Profile</Button>
         </NavLink>
       </Group>
 
@@ -55,11 +71,43 @@ function ProfileCheck() {
   return (
     <Group visibleFrom="cus">
       <NavLink to='/login'>
-        <Button color='#00B14F' radius="md" >Login</Button>
+        <Button type="submit"
+
+          color='#00B14F'
+          variant="light"
+          radius="xl"
+          size="sm"
+          c="green"
+          h={35}
+          style={{
+            fontWeight: 600,
+            padding: '6px 16px',
+            backgroundColor: '#E6F4EA', // soft mint green
+            color: '#2E7D32',           // darker green text
+            border: '1px solid #C8E6C9',
+            transition: 'all 0.2s ease',
+            fontFamily: 'Helvetica',
+            width: '100%'
+          }} >Login</Button>
       </NavLink>
 
       <NavLink to='/signup'>
-        <Button color='#00B14F' radius="md">Sign up</Button>
+        <Button color='#00B14F' 
+          variant="light"
+          radius="xl"
+          size="sm"
+          c="green"
+          h={35}
+          style={{
+            fontWeight: 600,
+            padding: '6px 16px',
+            backgroundColor: '#E6F4EA', // soft mint green
+            color: '#2E7D32',           // darker green text
+            border: '1px solid #C8E6C9',
+            transition: 'all 0.2s ease',
+            fontFamily: 'Helvetica',
+            width: '100%'
+          }}>Sign up</Button>
       </NavLink>
     </Group>
   )
@@ -105,9 +153,9 @@ function PCheck() {
           <NavLink to='/login'>
             <Button color='#00B14F' w={350} key='login'>Log in</Button>
           </NavLink>
-          
+
           <NavLink to='/signup'>
-          <Button color='#00B14F' w={350} key='signup'>Sign up</Button>
+            <Button color='#00B14F' w={350} key='signup'>Sign up</Button>
           </NavLink>
         </Stack>
       );
@@ -123,14 +171,31 @@ export function HeaderMegaMenu() {
   const { session, loading } = useLogin();
   const [opened, { toggle }] = useDisclosure(false);
   return (
-    <Box pb={0} style={{ width: '100%' }} c='#00B14F'>
+    <Box pb={0} style={{ width: '100%', border: 'none' }} c='#00B14F'>
       <header className={classes.header} color='#00B14F'>
         <Group justify="space-between" h="100%">
-          {/*<MantineLogo size={30} /> */}
-          <Image src='https://emmwtceslmtkkjpujrtk.supabase.co/storage/v1/object/public/logo//Screenshot%202025-07-31%20at%2014.03.00.png' h={50} w={200} ml={-17} />
-          <Group h="100%" gap={0} visibleFrom="cus" className='alignGroup' justify='flex-end' style={{ flexGrow: 1 }}>
-            <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} component={NavLink} to='/'>
-              <Text fw={700} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Home</Text>
+          <Image src='https://emmwtceslmtkkjpujrtk.supabase.co/storage/v1/object/public/logo//logoNew.png' h={50} w={250} ml={-15} />
+          <Group h="100%" gap={0} visibleFrom="cus" className='alignGroup' justify='flex-end' style={{ flexGrow: 1, border: 'none' }}>
+            <Button className={classes.link} component={NavLink} to='/'
+              color='#00B14F'
+              variant="light"
+              radius="xl"
+              size="sm"
+              c="green"
+              h={35}
+              style={{
+                fontWeight: 600,
+                padding: '6px 16px',
+                backgroundColor: '#E6F4EA', // soft mint green
+                color: '#2E7D32',           // darker green text
+                border: '1px solid #C8E6C9',
+                transition: 'all 0.2s ease',
+                fontFamily: 'Helvetica'
+              }}
+              leftSection={<IconHome size={20} />}
+
+            >
+              Home
             </Button>
 
 
@@ -139,8 +204,27 @@ export function HeaderMegaMenu() {
               {
                 session !== null &&
                 <Menu.Target>
-                  <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
-                    <Text fw={700} size='md' c='black' style={{ fontFamily: 'Helvetica' }}>Orders</Text>
+                  <Button className={classes.link}
+
+                    color='#00B14F'
+                    variant="light"
+                    radius="xl"
+                    size="sm"
+                    c="green"
+                    h={35}
+                    ml={20}
+                    style={{
+                      fontWeight: 600,
+                      padding: '6px 16px',
+                      backgroundColor: '#E6F4EA', // soft mint green
+                      color: '#2E7D32',           // darker green text
+                      border: '1px solid #C8E6C9',
+                      transition: 'all 0.2s ease',
+                      fontFamily: 'system-ui'
+                    }}
+                    leftSection={<IconMenuOrder />}
+                  >
+                    Orders
 
                   </Button>
                 </Menu.Target>
@@ -173,13 +257,13 @@ export function HeaderMegaMenu() {
         hiddenFrom="cus"
         zIndex={1000000}
         styles={{
-        content: {
-          backgroundColor: '#FFFAF0', // Apply desired background color
-        },
-      }}
-        
+          content: {
+            backgroundColor: '#FFFAF0', // Apply desired background color
+          },
+        }}
+
       >
-        <ScrollArea h="calc(100vh - 80px" mx="-md" bg = '#FFFAF0'>
+        <ScrollArea h="calc(100vh - 80px" mx="-md" bg='#FFFAF0'>
           <Divider my="sm" />
           <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
             <NavLink to="/" style={{ textDecoration: 'none' }}>
@@ -188,44 +272,44 @@ export function HeaderMegaMenu() {
           </Button>
 
 
-          
+
 
           {session !== null &&
-          <>
-          <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui', width: '100%', justifyContent: 'space-between' }} onClick={toggle}
-            fullWidth rightSection = { <IconCaretDownFilled />}
-          >
+            <>
+              <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui', width: '100%', justifyContent: 'space-between' }} onClick={toggle}
+                fullWidth rightSection={<IconCaretDownFilled />}
+              >
 
 
-            <Group justify="space-between" styles={{
-              width: '100%'
-            }}>
-              <Text c='#505050' fw={500}>Orders</Text>
-             
-            </Group>
+                <Group justify="space-between" styles={{
+                  width: '100%'
+                }}>
+                  <Text c='#505050' fw={500}>Orders</Text>
 
+                </Group>
 
-          </Button>
-            <Collapse in={opened} transitionDuration={500} transitionTimingFunction="linear">
-              <Space w={10} />
-              <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} ml={10}>
-                <NavLink to='/Orders' style={{ textDecoration: 'none' }}>
-
-                  <Text c='#505050' fw={500} size='xs'>Current Cart</Text>
-                </NavLink>
 
               </Button>
+              <Collapse in={opened} transitionDuration={500} transitionTimingFunction="linear">
+                <Space w={10} />
+                <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} ml={10}>
+                  <NavLink to='/Orders' style={{ textDecoration: 'none' }}>
 
-              <Space w={10} />
-              <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} ml={10} mt={-10}>
-                <NavLink to='/prevOrder' style={{ textDecoration: 'none' }}>
+                    <Text c='#505050' fw={500} size='xs'>Current Cart</Text>
+                  </NavLink>
 
-                  <Text c='#505050' fw={500} size='xs'>Previous Orders</Text>
-                </NavLink>
-              </Button>
-            </Collapse>
-          </>
-          
+                </Button>
+
+                <Space w={10} />
+                <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }} ml={10} mt={-10}>
+                  <NavLink to='/prevOrder' style={{ textDecoration: 'none' }}>
+
+                    <Text c='#505050' fw={500} size='xs'>Previous Orders</Text>
+                  </NavLink>
+                </Button>
+              </Collapse>
+            </>
+
           }
 
 

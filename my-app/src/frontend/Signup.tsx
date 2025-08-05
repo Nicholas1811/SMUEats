@@ -59,6 +59,7 @@ function Signup() {
                 display: 'flex',
                 flexDirection: 'column',
                 minHeight: '100vh',
+                background: 'linear-gradient(to right, #FFF0D9, #D4EDDA, #A5D6A7)'
             }}>
             <AnimatePresence>
                 <HeaderMegaMenu />
@@ -83,9 +84,9 @@ function Signup() {
                             },
                         }
                     }
-                    style={{flex: '2'}}
+                    style={{ flex: '2' }}
                 >
-                    <Container size='md' pt='3rem' h="3rem" bg='#FFFAF0'>
+                    <Container size='md' pt='3rem' h="3rem">
                         <Grid gutter={0}>
                             <Grid.Col span={{ xl: 6, lg: 6, md: 6, sm: 6, xs: 6 }} h="40rem">
                                 <Card shadow="xl" padding="lg" radius="md" withBorder style={{
@@ -94,7 +95,7 @@ function Signup() {
                                     width: '100%',
                                     height: '100%'
                                 }}
-                                bg='#FFFAF0'>
+                                    bg='#F1F8F4'>
                                     <Space h='3rem' />
                                     <Card.Section>
 
@@ -169,8 +170,27 @@ function Signup() {
                                             />
 
                                             <Space h="1rem" />
-                                            <Button variant="gradient" fullWidth mt="md" radius="md" gradient={{ from: ' #11998e', to: '#38ef7d', deg: 90 }}
-                                                type='submit'
+                                            <Button  fullWidth mt="md"  
+                                                
+
+                                                type="submit"
+
+                                                color='#00B14F'
+                                                variant="light"
+                                                radius="xl"
+                                                size="sm"
+                                                c="green"
+                                                h={35}
+                                                style={{
+                                                    fontWeight: 600,
+                                                    padding: '6px 16px',
+                                                    backgroundColor: '#E6F4EA', // soft mint green
+                                                    color: '#2E7D32',           // darker green text
+                                                    border: '1px solid #C8E6C9',
+                                                    transition: 'all 0.2s ease',
+                                                    fontFamily: 'Helvetica',
+                                                    width: '100%'
+                                                }}
                                             >
                                                 Sign Up
                                             </Button>

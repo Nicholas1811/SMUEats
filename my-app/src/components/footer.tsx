@@ -32,7 +32,8 @@ export function FooterSimple() {
         <div className={classes.footer}>
 
           <Container className={classes.inner}>
-            <Image src='https://emmwtceslmtkkjpujrtk.supabase.co/storage/v1/object/public/logo//Screenshot%202025-07-31%20at%2014.03.00.png' h={50} w={200} ml={-17} />
+                      <Image src='https://emmwtceslmtkkjpujrtk.supabase.co/storage/v1/object/public/logo//logoNew.png' h={50} w={250} ml={-15} />
+            
             {/* <MantineLogo size={28} /> */}
             <Group className={classes.links}>{items}</Group>
           </Container>
