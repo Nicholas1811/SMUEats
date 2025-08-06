@@ -80,7 +80,7 @@ function Login() {
                     }
                     style={{ flex: '2' }}
                 >
-                    <Container size='md' pt='3rem' h="3rem">
+                    <Container size='md' pt='3rem' style={{ flex: 1 }}>
                         <Grid gutter={0}>
                             <Grid.Col span={{ xl: 6, lg: 6, md: 6, sm: 6, xs: 6 }} h="40rem">
                                 <Card shadow="xl" padding="lg" radius="md" withBorder style={{

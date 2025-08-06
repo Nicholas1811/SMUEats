@@ -151,11 +151,42 @@ function PCheck() {
       return (
         <Stack style={{ alignItems: 'center' }}>
           <NavLink to='/login'>
-            <Button color='#00B14F' w={350} key='login'>Log in</Button>
+            <Button color='#00B14F' w={350} key='login'
+              variant="light"
+              radius="xl"
+              size="sm"
+              c="green"
+              h={35}
+              style={{
+                fontWeight: 600,
+                padding: '6px 16px',
+                backgroundColor: '#E6F4EA', // soft mint green
+                color: '#2E7D32',           // darker green text
+                border: '1px solid #C8E6C9',
+                transition: 'all 0.2s ease',
+                fontFamily: 'Helvetica',
+                width: '100%'
+              }}
+            >Log in</Button>
           </NavLink>
 
           <NavLink to='/signup'>
-            <Button color='#00B14F' w={350} key='signup'>Sign up</Button>
+            <Button color='#00B14F'
+              variant="light"
+              radius="xl"
+              size="sm"
+              c="green"
+              h={35}
+              style={{
+                fontWeight: 600,
+                padding: '6px 16px',
+                backgroundColor: '#E6F4EA', // soft mint green
+                color: '#2E7D32',           // darker green text
+                border: '1px solid #C8E6C9',
+                transition: 'all 0.2s ease',
+                fontFamily: 'Helvetica',
+                width: '100%'
+              }} w={350} key='signup'>Sign up</Button>
           </NavLink>
         </Stack>
       );
@@ -170,6 +201,9 @@ export function HeaderMegaMenu() {
   const location = useLocation();
   const { session, loading } = useLogin();
   const [opened, { toggle }] = useDisclosure(false);
+  const drawerColor = {
+    content: 'background: linear-gradient(to bottom, #FFF0D9, #F1F8F4)'
+  }
   return (
     <Box pb={0} style={{ width: '100%', border: 'none' }} c='#00B14F'>
       <header className={classes.header} color='#00B14F'>
@@ -228,7 +262,7 @@ export function HeaderMegaMenu() {
                       transition: 'all 0.2s ease',
                       fontFamily: 'system-ui'
                     }}
-                    leftSection={<IconShoppingCart size={20}/>}
+                    leftSection={<IconShoppingCart size={20} />}
                   >
                     Orders
 
@@ -263,14 +297,16 @@ export function HeaderMegaMenu() {
         hiddenFrom="cus"
         zIndex={1000000}
         styles={{
-          content: {
-            backgroundColor: '#FFFAF0', // Apply desired background color
+          header: {
+            background: 'linear-gradient(135deg, #a8d5a2 0%, #6b9e58 50%, #e7f0d1 100%)', // Set your desired color here
           },
         }}
-
       >
-        <ScrollArea h="calc(100vh - 80px" mx="-md" bg='#FFFAF0'>
-          <Divider my="sm" />
+        <ScrollArea h="calc(100vh - 80px" mx="-md" 
+        styles={{
+          root: {background: 'linear-gradient(135deg, #e7f0d1 100%, #6b9e58 50%, #a8d5a2 0%)'}
+        }}
+        >
           <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
             <NavLink to="/" style={{ textDecoration: 'none' }}>
               <Text c='#505050' fw={500} >Home</Text>
@@ -326,6 +362,7 @@ export function HeaderMegaMenu() {
           </Box>
         </ScrollArea>
       </Drawer>
+
     </Box>
   );
 }
