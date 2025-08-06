@@ -298,14 +298,13 @@ export function HeaderMegaMenu() {
         zIndex={1000000}
         styles={{
           header: {
-            background: 'linear-gradient(135deg, #a8d5a2 0%, #6b9e58 50%, #e7f0d1 100%)', // Set your desired color here
+            background: 'linear-gradient(to right, #FFF7D9, #C6E3B8, #8BB974)',
+            fontWeight: '1000'
           },
         }}
       >
-        <ScrollArea h="calc(100vh - 80px" mx="-md" 
-        styles={{
-          root: {background: 'linear-gradient(135deg, #e7f0d1 100%, #6b9e58 50%, #a8d5a2 0%)'}
-        }}
+        <ScrollArea h="calc(110vh - 80px)" mx="-md"
+          style={{ flex: 1, background: 'linear-gradient(to right, #FFF7D9, #C6E3B8, #8BB974)' }}
         >
           <Button variant='transparent' className={classes.link} style={{ fontFamily: 'system-ui' }}>
             <NavLink to="/" style={{ textDecoration: 'none' }}>
